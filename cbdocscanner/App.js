@@ -7,6 +7,7 @@ import {Provider} from 'react-redux';
 import {store} from './src/stores/index';
 import {PersistGate} from 'redux-persist/integration/react';
 import {persistStore} from 'redux-persist';
+import {ToastProvider} from 'react-native-toast-notifications';
 
 const persistor = persistStore(store);
 
@@ -14,11 +15,13 @@ const App = () => {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <SafeAreaProvider>
-          <NavigationContainer>
-            <MainAppRouter />
-          </NavigationContainer>
-        </SafeAreaProvider>
+        <ToastProvider>
+          <SafeAreaProvider>
+            <NavigationContainer>
+              <MainAppRouter />
+            </NavigationContainer>
+          </SafeAreaProvider>
+        </ToastProvider>
       </PersistGate>
     </Provider>
   );

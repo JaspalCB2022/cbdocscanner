@@ -9,7 +9,8 @@ const style = StyleSheet.create({
     justifyContent: 'center',
     alignContent: 'center',
     alignItems: 'center',
-    marginHorizontal: 10,
+    //marginHorizontal: 10,
+    backgroundColor: colors.white,
   },
   screenTitle: {
     fontSize: size.font19,
@@ -28,14 +29,17 @@ const style = StyleSheet.create({
   },
   formRow: {
     ...styles.row,
-    paddingBottom: 10,
+    paddingBottom: 40,
     justifyContent: 'center',
   },
   formView: {
     marginHorizontal: 10,
   },
   buttonView: {
+    ...styles.row,
     width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
     //alignItems: 'center',
   },
 });

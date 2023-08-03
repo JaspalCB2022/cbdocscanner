@@ -29,4 +29,8 @@ const weight = {
   low: '400',
 };
 
-export {size, weight};
+const family = {
+  fontFamily: 'GTEestiProDispTrialRegular',
+};
+
+export {size, weight, family};

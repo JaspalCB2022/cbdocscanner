@@ -1,14 +1,13 @@
 import React from 'react';
 import AuthStackNavigator from './auth';
-import MainBottomTabs from './bottomTab';
 import {useSelector} from 'react-redux';
 import {selectUserLoginIn} from '../stores/reducers/auth';
+import MyBottomNavigatior from './bottomTab';
 
 const MainAppRouter = props => {
-  const userObj = useSelector(selectUserLoginIn);
-  console.log('userObj >>', userObj);
-  if (userObj.isLoggedIn) {
-    return <MainBottomTabs />;
+  const isLogin = useSelector(selectUserLoginIn);
+  if (isLogin) {
+    return <MyBottomNavigatior />;
   } else {
     return <AuthStackNavigator />;
   }

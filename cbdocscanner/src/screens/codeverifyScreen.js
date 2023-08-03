@@ -1,9 +1,8 @@
 import React from 'react';
-import {View, Text, Pressable} from 'react-native';
+import {View, Text, Pressable, Platform, TextInput} from 'react-native';
 import globalstyle from '../styles/globalStyle';
 import style from '../styles/codeverifyStyle';
 import Label from '../components/label';
-import {size} from '../theme/fonts';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import Input from '../components/Input';
@@ -11,77 +10,174 @@ import Button from '../components/button';
 import colors from '../theme/colors';
 import {useDispatch} from 'react-redux';
 import {updateUserObj} from '../stores/reducers/auth';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import OTPInput from '../components/OTPInput';
+import {size, weight} from '../theme/fonts';
+import {postApi} from '../services/api';
+import ApiURL from '../services/apiURL';
+import {useToast} from 'react-native-toast-notifications';
+import {AlertMsgObj} from '../utils/helper';
+import {AlertTypes} from '../utils/constent';
 
 const CodeVerficationScreen = props => {
+  const {email} = props.route.params;
+  const toast = useToast();
   const dispatch = useDispatch();
   const tempIntialValue = {code: ''};
+
+  const [otpCode, setOTPCode] = React.useState(['', '', '', '']);
+  const [isPinReady, setIsPinReady] = React.useState(false);
+  const maximumCodeLength = 4;
+
+  const firstInputRef = React.useRef(null);
+  const secondInputRef = React.useRef(null);
+  const thirdInputRef = React.useRef(null);
+  const fourthInputRef = React.useRef(null);
 
   const tempIntialValueSchema = Yup.object().shape({
     code: Yup.string().required('Code Required.'),
   });
 
-  const saveFormHandler = values => {
-    console.log('saveFormHandler >>', values);
-    const tempUserObj = {
-      userObj: {},
-      isLogin: true,
+  const OTPChangeHandler = index => {
+    return value => {
+      if (isNaN(Number(value))) {
+        return value;
+      }
+      const tempOTP = otpCode.concat('');
+      tempOTP[index] = value;
+      setOTPCode(tempOTP);
+      if (value != '') {
+        if (index === 0) {
+          secondInputRef.current.focus();
+        } else if (index === 1) {
+          thirdInputRef.current.focus();
+        } else if (index === 2) {
+          fourthInputRef.current.focus();
+        }
+      }
     };
-    dispatch(updateUserObj(tempUserObj));
+  };
+
+  const OTPKeypress = index => {
+    return ({nativeEvent: {key: value}}) => {
+      if (value === 'Backspace' && otpCode[index] === '') {
+        if (index === 1) {
+          firstInputRef.current.focus();
+        } else if (index === 2) {
+          secondInputRef.current.focus();
+        } else if (index === 3) {
+          thirdInputRef.current.focus();
+        }
+        if (Platform.OS === 'android' && index > 0) {
+          const tmpOTP = otpCode.concat();
+          tmpOTP[index - 1] = '';
+          setOTPCode(tmpOTP);
+        }
+      }
+    };
+  };
+
+  const refCallback = inputref => node => {
+    inputref.current = node;
+  };
+
+  const saveFormHandler = async () => {
+    try {
+      const otpstr = otpCode.join('');
+      if (otpstr !== '') {
+        const tempSave = {email: email.toLowerCase(), otp: otpstr};
+        //console.log('tempSave >>', tempSave);
+
+        toast.hide();
+        const tempRes = await postApi(ApiURL.Login, tempSave);
+        if (tempRes.status === 200) {
+          const tempUserObj = {
+            userObj: {
+              email: email.toLowerCase(),
+              otpcode: otpstr,
+              token: tempRes.data.data.token,
+            },
+            isLogin: true,
+          };
+          dispatch(updateUserObj(tempUserObj));
+          const tempObj = AlertMsgObj(AlertTypes.success);
+          toast.show(tempRes.data.message, tempObj);
+        } else {
+          const tempObj = AlertMsgObj(AlertTypes.danger);
+          toast.show(tempRes.response.data.message, tempObj);
+        }
+      }
+    } catch (err) {
+      //console.log('err >>', err);
+      const tempObj = AlertMsgObj(AlertTypes.danger);
+      toast.show(err.message, tempObj);
+    }
   };
 
   return (
     <View style={style.conatiner}>
       <View style={style.screenTitle}>
-        <Label
-          title={'Enter Verification Code'}
-          fontsize={size.font25}
-          color={'#2E4053'}
+        <Icon
+          name="lock-outline"
+          size={30}
+          color={colors.buttonBackgrounColor}
         />
       </View>
 
       <View style={globalstyle.shadow}>
-        <Formik
-          initialValues={tempIntialValue}
-          validationSchema={tempIntialValueSchema}
-          onSubmit={saveFormHandler}>
-          {({
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            values,
-            errors,
-            touched,
-          }) => (
-            <View>
-              <View style={style.formView}>
-                <View style={style.formRow}>
-                  <Label title={'Code'} />
-                </View>
-                <View style={style.formRow}>
-                  <Input
-                    onChangeText={handleChange('code')}
-                    onBlur={handleBlur('code')}
-                    value={values.code}
-                    style={style.input}
-                  />
-                </View>
-                {errors.code && touched.code ? (
-                  <Label title={errors.code} color={colors.error} />
-                ) : null}
-              </View>
-              <Pressable style={style.formRow}>
-                <Label title={'Resend Code'} color={'#7FB3D5'} />
-              </Pressable>
-              <View style={style.buttonView}>
-                <Button
-                  iconname={'arrow-right'}
-                  title={'Verify'}
-                  onPress={handleSubmit}
-                />
-              </View>
+        <View>
+          <View style={style.formView}>
+            <View style={style.formRow}>
+              <Label
+                title={'Input the Activation Code'}
+                fontsize={size.font19}
+              />
             </View>
-          )}
-        </Formik>
+            <View style={{...style.formRow, paddingHorizontal: 10}}>
+              {[
+                firstInputRef,
+                secondInputRef,
+                thirdInputRef,
+                fourthInputRef,
+              ].map((inputref, index) => {
+                return (
+                  <TextInput
+                    key={index}
+                    onChangeText={OTPChangeHandler(index)}
+                    onKeyPress={OTPKeypress(index)}
+                    //onBlur={handleBlur('code')}
+                    value={otpCode[index]}
+                    style={{
+                      flex: 1,
+                      marginRight: 5,
+                      width: '100%',
+                      height: 60,
+                      backgroundColor: colors.backgorundColor,
+                      textAlign: 'center',
+                      color: colors.black,
+                      borderRadius: 10,
+                      fontSize: size.font22,
+                      fontWeight: weight.semi,
+                    }}
+                    ref={refCallback(inputref)}
+                    keyboardType={'numeric'}
+                    maxLength={1}
+                    autoFocus={index === 0 ? true : undefined}
+                  />
+                );
+              })}
+            </View>
+          </View>
+
+          <View style={style.buttonView}>
+            <Button
+              iconname={'arrow-right'}
+              title={'Verify'}
+              onPress={saveFormHandler}
+              width="50%"
+            />
+          </View>
+        </View>
       </View>
     </View>
   );

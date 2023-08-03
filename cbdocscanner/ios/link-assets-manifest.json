@@ -1,0 +1,61 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/GTEestiProDispTrialBold-Italic.ttf",
+      "sha1": "162a460093881b85288089e24c4cbac7bb49c64d"
+    },
+    {
+      "path": "src/assets/fonts/GTEestiProDispTrialBold.ttf",
+      "sha1": "54a8543bc0426370da52adeda2eea42421c69781"
+    },
+    {
+      "path": "src/assets/fonts/GTEestiProDispTrialLight-Italic.ttf",
+      "sha1": "c5dd74b6393abb34bd55a0b7b13cc94963bd5351"
+    },
+    {
+      "path": "src/assets/fonts/GTEestiProDispTrialLight.ttf",
+      "sha1": "9340ba0baec23391578ad9fb68a652ff113e961c"
+    },
+    {
+      "path": "src/assets/fonts/GTEestiProDispTrialMedium-Itali.ttf",
+      "sha1": "fb60b11fc0ed7be7dbcd9dfcec6eb051cbb35b1f"
+    },
+    {
+      "path": "src/assets/fonts/GTEestiProDispTrialMedium.ttf",
+      "sha1": "846c7c70f1d2b7042ecaef909567d4ea44937fc4"
+    },
+    {
+      "path": "src/assets/fonts/GTEestiProDispTrialRegular-Ital.ttf",
+      "sha1": "6f8876094e3040b7cb342c10abcd3518406e6a7e"
+    },
+    {
+      "path": "src/assets/fonts/GTEestiProDispTrialRegular.ttf",
+      "sha1": "cea37e955bbe125cbc73e006d8a726b6762a1823"
+    },
+    {
+      "path": "src/assets/fonts/GTEestiProDispTrialThin-Italic.ttf",
+      "sha1": "e6f0056ba4a0127dd85b4968669c8ec38db6a09e"
+    },
+    {
+      "path": "src/assets/fonts/GTEestiProDispTrialThin.ttf",
+      "sha1": "0c2b892f2320db9ec5c2c54b63e812533a2b16a5"
+    },
+    {
+      "path": "src/assets/fonts/GTEestiProDispTrialUBold-Italic.ttf",
+      "sha1": "6884a2aae7a318062748f20f70501b9d4326cd73"
+    },
+    {
+      "path": "src/assets/fonts/GTEestiProDispTrialUBold.ttf",
+      "sha1": "0e0cbf6618a032307feb7a84196718414a7ef387"
+    },
+    {
+      "path": "src/assets/fonts/GTEestiProDispTrialULight-Itali.ttf",
+      "sha1": "7f69484fe6c4e8128a7870099ac2a92d2342cbd0"
+    },
+    {
+      "path": "src/assets/fonts/GTEestiProDispTrialULight.ttf",
+      "sha1": "7fa670b935655170f11811be54f62ce354d21a75"
+    }
+  ]
+}

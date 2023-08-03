@@ -8,12 +8,26 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* cbdocscannerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* cbdocscannerTests.m */; };
+		0AD36B2CC0ED474896C8FCAF /* GTEestiProDispTrialThin-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 94624DA180BB44B19F9CFD30 /* GTEestiProDispTrialThin-Italic.ttf */; };
 		0C80B921A6F3F58F76C31292 /* libPods-cbdocscanner.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-cbdocscanner.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		664FA47B3FCD4EF383928EA3 /* GTEestiProDispTrialUBold-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56162A05A1E14D7B880B7453 /* GTEestiProDispTrialUBold-Italic.ttf */; };
+		6BAE7697F5ED40EEBCCFC664 /* GTEestiProDispTrialBold-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 39A5F2E87DF24239B5952D75 /* GTEestiProDispTrialBold-Italic.ttf */; };
+		6BCDB735738D45D489CC6C0A /* GTEestiProDispTrialBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 72A06E35A9654B89BBF395DC /* GTEestiProDispTrialBold.ttf */; };
+		734959695A5645308B9F4C41 /* GTEestiProDispTrialRegular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C3A48BDF87864EA3BD9F0763 /* GTEestiProDispTrialRegular.ttf */; };
+		7628E715D6E74775B909BE74 /* GTEestiProDispTrialMedium-Itali.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 94FF1BEA059E46B9BCC12371 /* GTEestiProDispTrialMedium-Itali.ttf */; };
 		7699B88040F8A987B510C191 /* libPods-cbdocscanner-cbdocscannerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-cbdocscanner-cbdocscannerTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		98312017095341E4A468867A /* GTEestiProDispTrialMedium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C820304B63A94AEBB9ADF81E /* GTEestiProDispTrialMedium.ttf */; };
+		AC89B168B8514460B20217D3 /* GTEestiProDispTrialThin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9734F5241ADE429798C7CFC4 /* GTEestiProDispTrialThin.ttf */; };
+		C5D586160E7F4369BEF0066E /* GTEestiProDispTrialULight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 07518B1778CB4195B5098B55 /* GTEestiProDispTrialULight.ttf */; };
+		C5F0DA279F52454FAD52A8D6 /* GTEestiProDispTrialULight-Itali.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0E900A6AF775429EAE343672 /* GTEestiProDispTrialULight-Itali.ttf */; };
+		CE5008639C784415943859BE /* GTEestiProDispTrialLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D657851779DF49519A552405 /* GTEestiProDispTrialLight.ttf */; };
+		E1C8AC6B5655485D88BCBC9C /* GTEestiProDispTrialRegular-Ital.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F545B84FBBDF40E794E8339B /* GTEestiProDispTrialRegular-Ital.ttf */; };
+		F66FA013D16544C384FFACA4 /* GTEestiProDispTrialLight-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AABEADFA21C3492CBACF2B2C /* GTEestiProDispTrialLight-Italic.ttf */; };
+		FC33BD4520B448A2810C60A1 /* GTEestiProDispTrialUBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 90A0FF03FFBA41B4A714A46C /* GTEestiProDispTrialUBold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,6 +44,8 @@
 		00E356EE1AD99517003FC87E /* cbdocscannerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = cbdocscannerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* cbdocscannerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = cbdocscannerTests.m; sourceTree = "<group>"; };
+		07518B1778CB4195B5098B55 /* GTEestiProDispTrialULight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = GTEestiProDispTrialULight.ttf; path = ../src/assets/fonts/GTEestiProDispTrialULight.ttf; sourceTree = "<group>"; };
+		0E900A6AF775429EAE343672 /* GTEestiProDispTrialULight-Itali.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "GTEestiProDispTrialULight-Itali.ttf"; path = "../src/assets/fonts/GTEestiProDispTrialULight-Itali.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* cbdocscanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cbdocscanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = cbdocscanner/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = cbdocscanner/AppDelegate.mm; sourceTree = "<group>"; };
@@ -37,13 +53,25 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = cbdocscanner/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = cbdocscanner/main.m; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-cbdocscanner-cbdocscannerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-cbdocscanner-cbdocscannerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		39A5F2E87DF24239B5952D75 /* GTEestiProDispTrialBold-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "GTEestiProDispTrialBold-Italic.ttf"; path = "../src/assets/fonts/GTEestiProDispTrialBold-Italic.ttf"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-cbdocscanner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cbdocscanner.debug.xcconfig"; path = "Target Support Files/Pods-cbdocscanner/Pods-cbdocscanner.debug.xcconfig"; sourceTree = "<group>"; };
+		56162A05A1E14D7B880B7453 /* GTEestiProDispTrialUBold-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "GTEestiProDispTrialUBold-Italic.ttf"; path = "../src/assets/fonts/GTEestiProDispTrialUBold-Italic.ttf"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-cbdocscanner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cbdocscanner.release.xcconfig"; path = "Target Support Files/Pods-cbdocscanner/Pods-cbdocscanner.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-cbdocscanner-cbdocscannerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cbdocscanner-cbdocscannerTests.debug.xcconfig"; path = "Target Support Files/Pods-cbdocscanner-cbdocscannerTests/Pods-cbdocscanner-cbdocscannerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-cbdocscanner.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-cbdocscanner.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		72A06E35A9654B89BBF395DC /* GTEestiProDispTrialBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = GTEestiProDispTrialBold.ttf; path = ../src/assets/fonts/GTEestiProDispTrialBold.ttf; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = cbdocscanner/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-cbdocscanner-cbdocscannerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cbdocscanner-cbdocscannerTests.release.xcconfig"; path = "Target Support Files/Pods-cbdocscanner-cbdocscannerTests/Pods-cbdocscanner-cbdocscannerTests.release.xcconfig"; sourceTree = "<group>"; };
+		90A0FF03FFBA41B4A714A46C /* GTEestiProDispTrialUBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = GTEestiProDispTrialUBold.ttf; path = ../src/assets/fonts/GTEestiProDispTrialUBold.ttf; sourceTree = "<group>"; };
+		94624DA180BB44B19F9CFD30 /* GTEestiProDispTrialThin-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "GTEestiProDispTrialThin-Italic.ttf"; path = "../src/assets/fonts/GTEestiProDispTrialThin-Italic.ttf"; sourceTree = "<group>"; };
+		94FF1BEA059E46B9BCC12371 /* GTEestiProDispTrialMedium-Itali.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "GTEestiProDispTrialMedium-Itali.ttf"; path = "../src/assets/fonts/GTEestiProDispTrialMedium-Itali.ttf"; sourceTree = "<group>"; };
+		9734F5241ADE429798C7CFC4 /* GTEestiProDispTrialThin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = GTEestiProDispTrialThin.ttf; path = ../src/assets/fonts/GTEestiProDispTrialThin.ttf; sourceTree = "<group>"; };
+		AABEADFA21C3492CBACF2B2C /* GTEestiProDispTrialLight-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "GTEestiProDispTrialLight-Italic.ttf"; path = "../src/assets/fonts/GTEestiProDispTrialLight-Italic.ttf"; sourceTree = "<group>"; };
+		C3A48BDF87864EA3BD9F0763 /* GTEestiProDispTrialRegular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = GTEestiProDispTrialRegular.ttf; path = ../src/assets/fonts/GTEestiProDispTrialRegular.ttf; sourceTree = "<group>"; };
+		C820304B63A94AEBB9ADF81E /* GTEestiProDispTrialMedium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = GTEestiProDispTrialMedium.ttf; path = ../src/assets/fonts/GTEestiProDispTrialMedium.ttf; sourceTree = "<group>"; };
+		D657851779DF49519A552405 /* GTEestiProDispTrialLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = GTEestiProDispTrialLight.ttf; path = ../src/assets/fonts/GTEestiProDispTrialLight.ttf; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		F545B84FBBDF40E794E8339B /* GTEestiProDispTrialRegular-Ital.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "GTEestiProDispTrialRegular-Ital.ttf"; path = "../src/assets/fonts/GTEestiProDispTrialRegular-Ital.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +150,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				8847AE04D8A645FC88602DEA /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -135,6 +164,28 @@
 				00E356EE1AD99517003FC87E /* cbdocscannerTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		8847AE04D8A645FC88602DEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				39A5F2E87DF24239B5952D75 /* GTEestiProDispTrialBold-Italic.ttf */,
+				72A06E35A9654B89BBF395DC /* GTEestiProDispTrialBold.ttf */,
+				AABEADFA21C3492CBACF2B2C /* GTEestiProDispTrialLight-Italic.ttf */,
+				D657851779DF49519A552405 /* GTEestiProDispTrialLight.ttf */,
+				94FF1BEA059E46B9BCC12371 /* GTEestiProDispTrialMedium-Itali.ttf */,
+				C820304B63A94AEBB9ADF81E /* GTEestiProDispTrialMedium.ttf */,
+				F545B84FBBDF40E794E8339B /* GTEestiProDispTrialRegular-Ital.ttf */,
+				C3A48BDF87864EA3BD9F0763 /* GTEestiProDispTrialRegular.ttf */,
+				94624DA180BB44B19F9CFD30 /* GTEestiProDispTrialThin-Italic.ttf */,
+				9734F5241ADE429798C7CFC4 /* GTEestiProDispTrialThin.ttf */,
+				56162A05A1E14D7B880B7453 /* GTEestiProDispTrialUBold-Italic.ttf */,
+				90A0FF03FFBA41B4A714A46C /* GTEestiProDispTrialUBold.ttf */,
+				0E900A6AF775429EAE343672 /* GTEestiProDispTrialULight-Itali.ttf */,
+				07518B1778CB4195B5098B55 /* GTEestiProDispTrialULight.ttf */,
+			);
+			name = Resources;
+			path = "";
 			sourceTree = "<group>";
 		};
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
@@ -244,6 +295,20 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				6BAE7697F5ED40EEBCCFC664 /* GTEestiProDispTrialBold-Italic.ttf in Resources */,
+				6BCDB735738D45D489CC6C0A /* GTEestiProDispTrialBold.ttf in Resources */,
+				F66FA013D16544C384FFACA4 /* GTEestiProDispTrialLight-Italic.ttf in Resources */,
+				CE5008639C784415943859BE /* GTEestiProDispTrialLight.ttf in Resources */,
+				7628E715D6E74775B909BE74 /* GTEestiProDispTrialMedium-Itali.ttf in Resources */,
+				98312017095341E4A468867A /* GTEestiProDispTrialMedium.ttf in Resources */,
+				E1C8AC6B5655485D88BCBC9C /* GTEestiProDispTrialRegular-Ital.ttf in Resources */,
+				734959695A5645308B9F4C41 /* GTEestiProDispTrialRegular.ttf in Resources */,
+				0AD36B2CC0ED474896C8FCAF /* GTEestiProDispTrialThin-Italic.ttf in Resources */,
+				AC89B168B8514460B20217D3 /* GTEestiProDispTrialThin.ttf in Resources */,
+				664FA47B3FCD4EF383928EA3 /* GTEestiProDispTrialUBold-Italic.ttf in Resources */,
+				FC33BD4520B448A2810C60A1 /* GTEestiProDispTrialUBold.ttf in Resources */,
+				C5F0DA279F52454FAD52A8D6 /* GTEestiProDispTrialULight-Itali.ttf in Resources */,
+				C5D586160E7F4369BEF0066E /* GTEestiProDispTrialULight.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

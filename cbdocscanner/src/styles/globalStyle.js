@@ -13,18 +13,18 @@ const style = StyleSheet.create({
     backgroundColor: colors.buttonBackgrounColor,
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 10,
-    marginHorizontal: 10,
+    padding: 12,
     borderRadius: 5,
   },
   buttonText: {
     fontSize: size.font16,
     fontWeight: weight.semi,
+    color: colors.white,
   },
   labelText: {
     fontSize: size.font16,
     color: colors.black,
-    fontWeight: weight.semi,
+    fontWeight: weight.low,
   },
   shadow: {
     shadowColor: '#000',
@@ -36,6 +36,17 @@ const style = StyleSheet.create({
     shadowRadius: 3.84,
 
     elevation: 5,
+  },
+  listItem: {
+    backgroundColor: '#EAF2F8',
+    //paddingHorizontal: 10,
+    marginVertical: 8,
+    textAlign: 'center',
+    //marginHorizontal: 16,
+  },
+  container: {
+    flex: 1,
+    backgroundColor: colors.white,
   },
 });
 

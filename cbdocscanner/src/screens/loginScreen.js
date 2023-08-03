@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TextInput, Pressable} from 'react-native';
+import {View, Text, TextInput, Pressable, Alert} from 'react-native';
 import loginstyle from '../styles/loginStyles';
 import globalstyle from '../styles/globalStyle';
 import {Form} from '../components/from';
@@ -9,29 +9,52 @@ import Button from '../components/button';
 import Label from '../components/label';
 import * as Yup from 'yup';
 import colors from '../theme/colors';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useDispatch} from 'react-redux';
+import {postApi} from '../services/api';
+import ApiURL from '../services/apiURL';
+import {useToast} from 'react-native-toast-notifications';
+import {AlertTypes} from '../utils/constent';
+import {AlertMsgObj} from '../utils/helper';
 
 const LoginScreen = props => {
+  const toast = useToast();
+
   const {route, navigation} = props;
-  const tempIntialValue = {email: '', password: ''};
+  const tempIntialValue = {email: ''};
 
   const tempIntialValueSchema = Yup.object().shape({
     email: Yup.string()
       .email('Invalid email-Id')
       .required('Email-Id Required.'),
-    password: Yup.string().required('Password Required'),
   });
 
-  const forgetPasswordHandler = () => {
-    navigation.navigate('forgetpassward');
+  const loginButtonHandler = values => {
+    navigation.navigate('codeverify', {...values});
   };
 
-  const loginButtonHandler = () => {
-    navigation.navigate('codeverify');
-  };
-
-  const saveFormHandler = values => {
-    console.log('values >>', values);
-    loginButtonHandler();
+  const saveFormHandler = async values => {
+    try {
+      alert('mjks>>');
+      toast.hide();
+      const tempRes = await postApi(ApiURL.GenerateOTP, {
+        email: values.email.toLowerCase(),
+      });
+      console.log('tempRes >', tempRes);
+      if (tempRes.status === 200) {
+        //console.log('tempRes.response >>', tempRes);
+        loginButtonHandler(values);
+        const tempObj = AlertMsgObj(AlertTypes.success);
+        toast.show(tempRes.data.message, tempObj);
+      } else {
+        const tempObj = AlertMsgObj(AlertTypes.danger);
+        toast.show(tempRes.response.data.message, tempObj);
+      }
+    } catch (err) {
+      //console.log('err >>', err);
+      const tempObj = AlertMsgObj(AlertTypes.danger);
+      toast.show(err.message, tempObj);
+    }
   };
 
   return (
@@ -43,7 +66,7 @@ const LoginScreen = props => {
           <Formik
             initialValues={tempIntialValue}
             validationSchema={tempIntialValueSchema}
-            onSubmit={saveFormHandler}>
+            onSubmit={values => saveFormHandler(values)}>
             {({
               handleChange,
               handleBlur,
@@ -55,7 +78,7 @@ const LoginScreen = props => {
               <View>
                 <View>
                   <View style={loginstyle.formRow}>
-                    <Label title={'Email-Id'} />
+                    <Label title={'Email Id'} />
                   </View>
                   <View style={loginstyle.formRow}>
                     <Input
@@ -64,38 +87,26 @@ const LoginScreen = props => {
                       value={values.email}
                       style={loginstyle.loginInput}
                     />
+                    <View style={loginstyle.emailIcon}>
+                      <Icon
+                        name="email-newsletter"
+                        size={20}
+                        color={colors.black}
+                      />
+                    </View>
                   </View>
                   {errors.email && touched.email ? (
                     <Label title={errors.email} color={colors.error} />
                   ) : null}
                 </View>
-                <View>
-                  <View style={loginstyle.formRow}>
-                    <Label title={'Password'} />
-                  </View>
-                  <View style={loginstyle.formRow}>
-                    <TextInput
-                      onChangeText={handleChange('password')}
-                      onBlur={handleBlur('password')}
-                      value={values.password}
-                      style={loginstyle.loginInput}
-                      secureTextEntry={true}
-                    />
-                  </View>
-                  {errors.password && touched.password ? (
-                    <Label title={errors.password} color={colors.error} />
-                  ) : null}
+
+                <View style={loginstyle.loginButton}>
+                  <Button
+                    iconname={'arrow-right'}
+                    title={'Login'}
+                    onPress={handleSubmit}
+                  />
                 </View>
-                <Pressable
-                  style={loginstyle.forgetpassword}
-                  onPress={forgetPasswordHandler}>
-                  <Label title={'Forget Password?'} />
-                </Pressable>
-                <Button
-                  iconname={'arrow-right'}
-                  title={'Login'}
-                  onPress={handleSubmit}
-                />
                 {/* <Button onPress={handleSubmit} title="Submit" /> */}
               </View>
             )}
