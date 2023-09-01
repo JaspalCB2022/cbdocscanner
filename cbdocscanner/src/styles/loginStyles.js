@@ -33,6 +33,7 @@ const style = StyleSheet.create({
     fontWeight: weight.semi,
     marginBottom: 30,
     textAlign: 'center',
+    color: colors.black,
   },
   cardStyle: {
     //backgroundColor: '#F4F6F6',

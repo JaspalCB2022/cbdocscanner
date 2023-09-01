@@ -15,8 +15,9 @@ const style = StyleSheet.create({
   screenTitle: {
     fontSize: size.font19,
     fontWeight: weight.bold,
-    textAlign: 'center',
+    alignItems: 'center',
     marginBottom: 20,
+    color: colors.black,
   },
   input: {
     ...styles.textInput,

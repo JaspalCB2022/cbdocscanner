@@ -23,7 +23,7 @@ const style = StyleSheet.create({
   },
   nameIcon: {
     backgroundColor: colors.cardIconColor,
-    padding: 6,
+    padding: 3,
     borderRadius: 50,
     marginRight: 7,
   },
@@ -35,7 +35,7 @@ const style = StyleSheet.create({
     ...globalStyle.row,
     alignContent: 'center',
     alignItems: 'center',
-    marginLeft: 30,
+    marginLeft: 20,
   },
   mailboxView: {
     backgroundColor: colors.backgorundColor,

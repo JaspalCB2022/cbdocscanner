@@ -1,29 +1,28 @@
 import React from 'react';
-import {View, Text, Pressable} from 'react-native';
+import {View, Pressable} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
-import HomeScreen from '../screens/homeScreen';
 import ProfileScreen from '../screens/profileScreen';
 import CustomersScreen from '../screens/customerScreen';
-import CustomerDetailScreen from '../screens/customerdetailScreen';
-import HistoryScreen from '../screens/historyScreen';
-import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import colors from '../theme/colors';
+import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
+import CustomerDetailScreen from '../screens/customerdetailScreen';
 import {family} from '../theme/fonts';
 import CustomerFileView from '../screens/customerFileView';
 import OpenFileViewer from '../screens/OpenFileViewer';
 
 const Stack = createStackNavigator();
 
-function MyHomeStack() {
+function MyCustomerStack() {
   return (
-    <Stack.Navigator initialRouteName="Home">
+    <Stack.Navigator initialRouteName="customers">
       <Stack.Screen
-        name="Home"
-        component={HomeScreen}
+        name="customers"
+        component={CustomersScreen}
         options={({route, navigation}) => ({
           headerShown: true,
-          headerTitle: `Today's Scan history`,
+          headerTitle: 'Customers',
+          headerTitleAlign: 'center',
           headerTitleStyle: {
             fontFamily: family.fontFamily,
           },
@@ -42,32 +41,26 @@ function MyHomeStack() {
         })}
       />
       <Stack.Screen
-        name="customerdetail"
-        component={CustomerDetailScreen}
-        options={{
-          headerTitle: 'Customer Details',
-          headerTitleAlign: 'center',
-          headerTitleStyle: {
-            fontFamily: family.fontFamily,
-          },
-        }}
-      />
-      <Stack.Screen
-        name="history"
-        component={HistoryScreen}
-        options={{
-          headerTitle: 'All History',
-          headerTitleAlign: 'center',
-          headerTitleStyle: {
-            fontFamily: family.fontFamily,
-          },
-        }}
-      />
-      <Stack.Screen
         name="profile"
         component={ProfileScreen}
         options={{
           headerTitle: 'Profile',
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            fontFamily: family.fontFamily,
+          },
+        }}
+      />
+      {/* <Stack.Screen
+        name="sendtocustomer"
+        component={SendToCustomerScreen}
+        options={{headerTitle: ''}}
+      /> */}
+      <Stack.Screen
+        name="customerdetail"
+        component={CustomerDetailScreen}
+        options={{
+          headerTitle: 'Customer Details',
           headerTitleAlign: 'center',
           headerTitleStyle: {
             fontFamily: family.fontFamily,
@@ -85,7 +78,6 @@ function MyHomeStack() {
           },
         }}
       />
-
       <Stack.Screen
         name="openfileview"
         component={OpenFileViewer}
@@ -101,4 +93,4 @@ function MyHomeStack() {
   );
 }
 
-export default MyHomeStack;
+export default MyCustomerStack;

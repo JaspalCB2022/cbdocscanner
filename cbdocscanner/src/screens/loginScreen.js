@@ -1,8 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, TextInput, Pressable, Alert} from 'react-native';
 import loginstyle from '../styles/loginStyles';
 import globalstyle from '../styles/globalStyle';
-import {Form} from '../components/from';
 import Input from '../components/Input';
 import {Formik} from 'formik';
 import Button from '../components/button';
@@ -10,17 +9,20 @@ import Label from '../components/label';
 import * as Yup from 'yup';
 import colors from '../theme/colors';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useDispatch} from 'react-redux';
 import {postApi} from '../services/api';
 import ApiURL from '../services/apiURL';
 import {useToast} from 'react-native-toast-notifications';
 import {AlertTypes} from '../utils/constent';
 import {AlertMsgObj} from '../utils/helper';
+import {SplashLogoImage} from '../theme/Images';
+import metrics from '../theme/metrics';
 
 const LoginScreen = props => {
   const toast = useToast();
-
   const {route, navigation} = props;
+
+  const [loading, setLoading] = useState(false);
+
   const tempIntialValue = {email: ''};
 
   const tempIntialValueSchema = Yup.object().shape({
@@ -35,22 +37,31 @@ const LoginScreen = props => {
 
   const saveFormHandler = async values => {
     try {
-      alert('mjks>>');
+      setLoading(true);
+      //alert('mjks>>');
       toast.hide();
-      const tempRes = await postApi(ApiURL.GenerateOTP, {
-        email: values.email.toLowerCase(),
-      });
+
+      const tempRes = await postApi(
+        ApiURL.GenerateOTP,
+        {
+          email: values.email.trim(),
+        },
+        // headers,
+      );
       console.log('tempRes >', tempRes);
       if (tempRes.status === 200) {
+        setLoading(false);
         //console.log('tempRes.response >>', tempRes);
         loginButtonHandler(values);
         const tempObj = AlertMsgObj(AlertTypes.success);
         toast.show(tempRes.data.message, tempObj);
       } else {
+        setLoading(false);
         const tempObj = AlertMsgObj(AlertTypes.danger);
         toast.show(tempRes.response.data.message, tempObj);
       }
     } catch (err) {
+      setLoading(false);
       //console.log('err >>', err);
       const tempObj = AlertMsgObj(AlertTypes.danger);
       toast.show(err.message, tempObj);
@@ -61,8 +72,13 @@ const LoginScreen = props => {
     <View style={loginstyle.container}>
       <View style={globalstyle.shadow}>
         <View style={loginstyle.cardStyle}>
-          <Text style={loginstyle.cardTitle}>{'Login'}</Text>
-
+          <View style={loginstyle.cardTitle}>
+            <SplashLogoImage
+              style={{width: metrics.width, height: 100}}
+              resizeMode={'contain'}
+            />
+          </View>
+          {/* <Text style={loginstyle.cardTitle}>{'Login'}</Text> */}
           <Formik
             initialValues={tempIntialValue}
             validationSchema={tempIntialValueSchema}
@@ -105,6 +121,7 @@ const LoginScreen = props => {
                     iconname={'arrow-right'}
                     title={'Login'}
                     onPress={handleSubmit}
+                    loading={loading}
                   />
                 </View>
                 {/* <Button onPress={handleSubmit} title="Submit" /> */}

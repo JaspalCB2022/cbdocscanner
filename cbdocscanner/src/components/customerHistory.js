@@ -17,12 +17,13 @@ const CustomerHistory = props => {
         flexDirection: 'row',
         alignSelf: 'flex-start',
         marginHorizontal: 20,
-        marginTop: 10,
+        marginTop: 20,
       }}>
       <Label
         title={headerTitle}
-        fontsize={size.font22}
+        fontsize={size.font16}
         fontWeight={weight.semi}
+        enablecapitalize={false}
       />
     </View>
   );

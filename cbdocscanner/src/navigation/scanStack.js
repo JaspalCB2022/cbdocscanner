@@ -13,11 +13,12 @@ const Stack = createStackNavigator();
 
 function MyScanStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="scannedoc">
       <Stack.Screen
         name="scannedoc"
         component={ScannedDocumentScreen}
         options={{headerShown: false}}
+        initialParams={{document_id: 0}}
       />
       <Stack.Screen
         name="viewdoc"

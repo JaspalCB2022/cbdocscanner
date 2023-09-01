@@ -1,111 +1,62 @@
 import React from 'react';
-import {View, Text, FlatList, TextInput, Pressable} from 'react-native';
+import {View, Image, ActivityIndicator} from 'react-native';
 import colors from '../theme/colors';
 import Label from '../components/label';
-import {size} from '../theme/fonts';
+import Button from '../components/button';
 import {useDispatch, useSelector} from 'react-redux';
+import {getApi, postApi} from '../services/api';
+import ApiURL from '../services/apiURL';
+import {AlertTypes} from '../utils/constent';
+import {AlertMsgObj} from '../utils/helper';
 import {
-  fetchCustomerList,
-  selectCustomerLists,
+  fetchScanerProfile,
+  selectLoading,
   selectUserObject,
+  selectUserProfile,
+  updateUserObj,
 } from '../stores/reducers/auth';
-import styles from '../styles/customerStyle';
+import {useToast} from 'react-native-toast-notifications';
+import style from '../styles/globalStyle';
+import styles from '../styles/profileStyle';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {size} from '../theme/fonts';
 
 const ProfileScreen = props => {
   const dispatch = useDispatch();
   const userObj = useSelector(selectUserObject);
-  const customers = useSelector(selectCustomerLists);
-  const [search, setSearch] = React.useState('');
-  const [filteredList, setFilteredList] = React.useState(
-    customers.length > 0 ? customers : [],
-  );
-  const [customerList, setCustomerList] = React.useState(
-    customers.length > 0 ? customers : [],
-  );
-  console.log('customers >>>', customers);
+  const toast = useToast();
+  const {route, navigation} = props;
+  const userProfile = useSelector(selectUserProfile);
+  const loading = useSelector(selectLoading);
 
-  const searchFilterFunction = text => {
-    // Check if searched text is not blank
-    if (text) {
-      // Inserted text is not blank
-      // Filter the masterDataSource and update FilteredDataSource
-      const newData = customerList.filter(function (item) {
-        // Applying filter for the inserted text in search bar
-        const name = `${item.first_name} ${item.last_name}`;
+  console.log('userProfile >>', userProfile);
 
-        const itemData = name.toUpperCase() + item.mailbox_no.toString();
-        const textData = text.toUpperCase();
-        return itemData.indexOf(textData) > -1;
-      });
-      setFilteredList(newData);
-      setSearch(text);
+  const userLogOutHandler = async () => {
+    const headers = {Authorization: 'Bearer ' + userObj.token};
+    const tempRes = await postApi(ApiURL.logoutuser, {}, headers);
+    console.log('tempRes >>', tempRes);
+    if (tempRes.status === 200) {
+      const tempUserObj = {
+        userObj: {},
+        isLogin: false,
+      };
+      dispatch(updateUserObj(tempUserObj));
+      const tempObj = AlertMsgObj(AlertTypes.success);
+      toast.show(tempRes.data.message, tempObj);
     } else {
-      // Inserted text is blank
-      // Update FilteredDataSource with masterDataSource
-      setFilteredList(customers);
-      setSearch(text);
+      const tempObj = AlertMsgObj(AlertTypes.danger);
+      toast.show(tempRes.response.data.message, tempObj);
     }
   };
 
-  const getCustomersListHandler = () => {
-    const headers = {
-      Authorization: 'Bearer ' + userObj.token,
-    };
-    dispatch(fetchCustomerList(headers));
+  const getScanerProfile = () => {
+    const headers = {Authorization: 'Bearer ' + userObj.token};
+    dispatch(fetchScanerProfile(headers));
   };
 
   React.useEffect(() => {
-    getCustomersListHandler();
+    getScanerProfile();
   }, []);
-
-  const ItemView = ({item}) => {
-    return (
-      <>
-        <View style={styles.flexboxs}>
-          <View style={styles.leftbox}>
-            <Text style={styles.badge}>{item.mailbox_no}</Text>
-            <Text
-              style={
-                styles.names
-              }>{`${item.first_name} ${item.last_name}`}</Text>
-          </View>
-          <View style={styles.rightbox}>
-            <View style={styles.mailbox}>
-              <View style={styles.flexs}>
-                <Icon name="email" size={18} color={colors.primary} />
-                <Text style={styles.mailtxt}>{item.email}</Text>
-              </View>
-              <View style={styles.flexs}>
-                <Icon name="email" size={18} color={colors.primary} />
-                <Text style={styles.mailtxt}>{item.second_email}</Text>
-              </View>
-            </View>
-            <View style={styles.iconarow}>
-              <Icon name="arrow-right" size={18} color={colors.primary} />
-            </View>
-          </View>
-        </View>
-      </>
-    );
-  };
-  const ItemSeparatorView = () => {
-    return (
-      // Flat List Item Separator
-      <View
-        style={{
-          height: 0.5,
-          width: '100%',
-          backgroundColor: '#C8C8C8',
-        }}
-      />
-    );
-  };
-
-  const getItem = item => {
-    // Function for click on an item
-    alert('Id : ' + item.id + ' Title : ' + item.title);
-  };
 
   return (
     <View
@@ -117,31 +68,112 @@ const ProfileScreen = props => {
         backgroundColor: colors.white,
         paddingHorizontal: 10,
       }}>
-      <View style={{marginTop: 30}}>
-        <Label title={'Customers'} fontsize={size.font24} />
-      </View>
-      <View style={{paddingHorizontal: 10}}>
-        <View style={styles.formRow}>
-          <TextInput
-            style={styles.textInputStyle}
-            onChangeText={text => searchFilterFunction(text)}
-            value={search}
-            underlineColorAndroid="transparent"
-            placeholder="Search here..."
-          />
-          <View style={styles.searchIcon}>
-            <Icon name="magnify" size={30} color={colors.primary} />
+      {loading ? (
+        <ActivityIndicator size={'large'} color={colors.primary} />
+      ) : (
+        <>
+          <View style={styles.userViewCard}>
+            <View style={styles.userImageView}>
+              <Image
+                source={{uri: userProfile.user_photo}}
+                style={{
+                  height: 100,
+                  width: 100,
+                  resizeMode: 'contain',
+                  borderRadius: 50,
+                }}
+              />
+              {/* <Icon name={'account-circle'} size={70} /> */}
+            </View>
+            <Label title={userProfile.name} fontsize={size.font23} />
           </View>
-        </View>
 
-        <FlatList
-          data={filteredList}
-          keyExtractor={(item, index) => index.toString()}
-          ItemSeparatorComponent={ItemSeparatorView}
-          renderItem={ItemView}
-          style={{marginBottom: 90}}
-        />
-      </View>
+          <View
+            style={{
+              alignSelf: 'flex-start',
+              flexDirection: 'row',
+            }}>
+            <View style={{flexDirection: 'column'}}>
+              <Label
+                title={'Gender'}
+                fontsize={size.font17}
+                styles={{marginBottom: 10}}
+              />
+              <Label
+                title={userProfile.gender}
+                opacity={0.6}
+                styles={{
+                  marginBottom: 5,
+                  backgroundColor: colors.backgorundColor,
+                  padding: 10,
+                }}
+              />
+            </View>
+          </View>
+
+          <View
+            style={{
+              alignSelf: 'flex-start',
+              flexDirection: 'row',
+              marginTop: 15,
+            }}>
+            <View style={{flexDirection: 'column'}}>
+              <Label
+                title={'email'}
+                fontsize={size.font17}
+                styles={{
+                  marginBottom: 10,
+                }}
+              />
+              <Label
+                title={userProfile.email}
+                opacity={0.6}
+                styles={{
+                  marginBottom: 20,
+                  backgroundColor: colors.backgorundColor,
+                  padding: 10,
+                }}
+              />
+            </View>
+          </View>
+
+          <View
+            style={{
+              alignSelf: 'flex-start',
+              flexDirection: 'row',
+              marginTop: 4,
+            }}>
+            <View style={{flexDirection: 'column'}}>
+              <Label
+                title={'Date of Birth'}
+                fontsize={size.font17}
+                styles={{
+                  marginBottom: 10,
+                }}
+                enablecapitalize={false}
+              />
+              <Label
+                title={userProfile.date_of_birth}
+                opacity={0.6}
+                styles={{
+                  marginBottom: 20,
+                  backgroundColor: colors.backgorundColor,
+                  padding: 10,
+                }}
+              />
+            </View>
+          </View>
+
+          <View style={style.row}>
+            <Button
+              title={'Logout'}
+              onPress={userLogOutHandler}
+              customStyle={true}
+              customButtonStyle={{paddingVertical: 8}}
+            />
+          </View>
+        </>
+      )}
     </View>
   );
 };

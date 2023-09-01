@@ -18,13 +18,15 @@ import ApiURL from '../services/apiURL';
 import {useToast} from 'react-native-toast-notifications';
 import {AlertMsgObj} from '../utils/helper';
 import {AlertTypes} from '../utils/constent';
+import {SplashLogoImage} from '../theme/Images';
+import metrics from '../theme/metrics';
 
 const CodeVerficationScreen = props => {
   const {email} = props.route.params;
   const toast = useToast();
   const dispatch = useDispatch();
   const tempIntialValue = {code: ''};
-
+  const [loading, setLoading] = React.useState(false);
   const [otpCode, setOTPCode] = React.useState(['', '', '', '']);
   const [isPinReady, setIsPinReady] = React.useState(false);
   const maximumCodeLength = 4;
@@ -83,19 +85,23 @@ const CodeVerficationScreen = props => {
 
   const saveFormHandler = async () => {
     try {
+      setLoading(true);
       const otpstr = otpCode.join('');
       if (otpstr !== '') {
-        const tempSave = {email: email.toLowerCase(), otp: otpstr};
+        const tempSave = {email: email.trim(), otp: otpstr};
         //console.log('tempSave >>', tempSave);
 
         toast.hide();
         const tempRes = await postApi(ApiURL.Login, tempSave);
+        //console.log('tempRes >>', tempRes);
         if (tempRes.status === 200) {
+          setLoading(false);
+
           const tempUserObj = {
             userObj: {
-              email: email.toLowerCase(),
+              email: email.trim(),
               otpcode: otpstr,
-              token: tempRes.data.data.token,
+              token: tempRes.data.data.access_token,
             },
             isLogin: true,
           };
@@ -103,12 +109,15 @@ const CodeVerficationScreen = props => {
           const tempObj = AlertMsgObj(AlertTypes.success);
           toast.show(tempRes.data.message, tempObj);
         } else {
+          setLoading(false);
           const tempObj = AlertMsgObj(AlertTypes.danger);
           toast.show(tempRes.response.data.message, tempObj);
         }
       }
     } catch (err) {
       //console.log('err >>', err);
+      setLoading(false);
+
       const tempObj = AlertMsgObj(AlertTypes.danger);
       toast.show(err.message, tempObj);
     }
@@ -116,15 +125,20 @@ const CodeVerficationScreen = props => {
 
   return (
     <View style={style.conatiner}>
-      <View style={style.screenTitle}>
-        <Icon
-          name="lock-outline"
-          size={30}
-          color={colors.buttonBackgrounColor}
-        />
-      </View>
-
       <View style={globalstyle.shadow}>
+        <View style={{textAlign: 'center', marginBottom: 50}}>
+          <SplashLogoImage
+            style={{width: metrics.width, height: 100}}
+            resizeMode={'contain'}
+          />
+        </View>
+        <View style={style.screenTitle}>
+          <Icon
+            name="lock-outline"
+            size={30}
+            color={colors.buttonBackgrounColor}
+          />
+        </View>
         <View>
           <View style={style.formView}>
             <View style={style.formRow}>
@@ -133,6 +147,7 @@ const CodeVerficationScreen = props => {
                 fontsize={size.font19}
               />
             </View>
+
             <View style={{...style.formRow, paddingHorizontal: 10}}>
               {[
                 firstInputRef,
@@ -175,6 +190,7 @@ const CodeVerficationScreen = props => {
               title={'Verify'}
               onPress={saveFormHandler}
               width="50%"
+              loading={loading}
             />
           </View>
         </View>

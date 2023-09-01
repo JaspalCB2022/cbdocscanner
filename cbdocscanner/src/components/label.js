@@ -12,6 +12,8 @@ const Label = props => {
     textAlign = 'left',
     fontWeight = weight.normal,
     opacity = 1,
+    enablecapitalize = true,
+    styles = null,
   } = props;
   return (
     <Text
@@ -23,10 +25,11 @@ const Label = props => {
         fontFamily: family.fontFamily,
         fontWeight: fontWeight,
         opacity: opacity,
-        textTransform: 'capitalize',
+        ...(enablecapitalize && {textTransform: 'capitalize'}),
         flexWrap: 'wrap',
         flexShrink: 1,
         ...style.width,
+        ...(styles && styles),
       }}>
       {title}
     </Text>
