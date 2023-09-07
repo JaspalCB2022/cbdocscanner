@@ -19,9 +19,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   userImageView: {
-    padding: 10,
-    backgroundColor: colors.white,
-    borderRadius: 50,
+    //padding: 10,
+    //backgroundColor: colors.white,
+    //borderRadius: 50,
   },
 });
 

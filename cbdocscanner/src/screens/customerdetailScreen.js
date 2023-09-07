@@ -5,6 +5,7 @@ import {
   FlatList,
   ActivityIndicator,
   RefreshControl,
+  Image,
 } from 'react-native';
 import style from '../styles/globalStyle';
 import Label from '../components/label';
@@ -44,7 +45,7 @@ const CustomerDetailScreen = props => {
   const [refreshing, setRefreshing] = React.useState(false);
 
   const customerid = route?.params?.customerid;
-  //console.log('customerDetail >>', customerDetail);
+  console.log('customerDetail >>', customerDetail);
   const getCustomerDetailHandler = () => {
     setRefreshing(true);
     //console.log('function Call start');
@@ -73,7 +74,7 @@ const CustomerDetailScreen = props => {
     const datestr = getStringFormDateHandler(item.pdf_updated_at);
     const timestr = getStringFromTimeHandler(item.pdf_updated_at);
     return (
-      <View key={index} style={{marginTop: 10}}>
+      <View key={index} style={{marginTop: 12, marginBottom: 15}}>
         <View
           style={{
             ...globalStyle.shadow,
@@ -167,7 +168,30 @@ const CustomerDetailScreen = props => {
         <>
           <View style={styles.userCardView}>
             <View style={styles.userImageView}>
-              <Icon name={'account'} size={80} color={'#C5D2DD'} />
+              {customerDetail?.customer_data?.customer_photo_url ? (
+                <Image
+                  source={{
+                    uri: customerDetail?.customer_data?.customer_photo_url,
+                  }}
+                  style={{
+                    height: 90,
+                    width: 90,
+                    resizeMode: 'contain',
+                    borderRadius: 50,
+                  }}
+                />
+              ) : (
+                <Icon
+                  name={'account'}
+                  size={80}
+                  color={colors.gray}
+                  style={{
+                    backgroundColor: colors.primary,
+                    borderRadius: 50,
+                    padding: 5,
+                  }}
+                />
+              )}
             </View>
             <View style={{marginTop: 20}}>
               <Label
@@ -264,7 +288,7 @@ const CustomerDetailScreen = props => {
                 flexDirection: 'column',
                 justifyContent: 'center',
               }}>
-              <Label title={`Mail's History `} fontsize={size.font18} />
+              <Label title={`Mail History `} fontsize={size.font18} />
             </View>
             <View style={{width: '50%', flexDirection: 'column'}}>
               <View

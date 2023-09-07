@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Pressable} from 'react-native';
+import {View, Pressable, Image} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import ProfileScreen from '../screens/profileScreen';
 import CustomersScreen from '../screens/customerScreen';
@@ -10,10 +10,14 @@ import CustomerDetailScreen from '../screens/customerdetailScreen';
 import {family} from '../theme/fonts';
 import CustomerFileView from '../screens/customerFileView';
 import OpenFileViewer from '../screens/OpenFileViewer';
+import {useSelector} from 'react-redux';
+import {selectUserProfile} from '../stores/reducers/auth';
 
 const Stack = createStackNavigator();
 
 function MyCustomerStack() {
+  const userProfile = useSelector(selectUserProfile);
+
   return (
     <Stack.Navigator initialRouteName="customers">
       <Stack.Screen
@@ -26,18 +30,36 @@ function MyCustomerStack() {
           headerTitleStyle: {
             fontFamily: family.fontFamily,
           },
-          headerRight: () => (
-            <View style={{marginRight: 20}}>
-              <Pressable
-                onPress={
-                  getFocusedRouteNameFromRoute(route) !== 'profile'
-                    ? () => navigation.navigate('profile')
-                    : () => {}
-                }>
-                <Icon name={'account-circle'} size={30} color={colors.black} />
-              </Pressable>
-            </View>
-          ),
+          headerRight: () => {
+            return (
+              <View style={{marginRight: 20}}>
+                <Pressable
+                  onPress={
+                    getFocusedRouteNameFromRoute(route) !== 'profile'
+                      ? () => navigation.navigate('profile')
+                      : () => {}
+                  }>
+                  {userProfile?.user_photo ? (
+                    <Image
+                      source={{uri: userProfile?.user_photo}}
+                      style={{
+                        height: 30,
+                        width: 30,
+                        resizeMode: 'contain',
+                        borderRadius: 50,
+                      }}
+                    />
+                  ) : (
+                    <Icon
+                      name={'account-circle'}
+                      size={30}
+                      color={colors.black}
+                    />
+                  )}
+                </Pressable>
+              </View>
+            );
+          },
         })}
       />
       <Stack.Screen

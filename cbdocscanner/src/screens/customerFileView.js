@@ -73,21 +73,22 @@ const CustomerFileView = props => {
           <ActivityIndicator size={'large'} color={colors.primary} />
         ) : (
           <>
-            {Object.keys(emailThreadObj).length > 0 ? (
+            {Object.keys(emailThreadObj).length > 0 &&
+            emailThreadObj?.threads.length > 0 ? (
               <>
-                <MailThreadComponent
+                {/* <MailThreadComponent
                   item={{
                     ...emailThreadObj?.document,
                     message:
                       emailThreadObj?.document?.current_status ===
                       dbMailStatusEnum.Pending
-                        ? `Postal email send to ${emailThreadObj?.customer_full_name} by the MailBox. waiting for response.`
+                        ? `Postal email sent to ${emailThreadObj?.customer_full_name} by the MailBox, waiting for response.`
                         : `${emailThreadObj?.customer_full_name} status has been submitted to staff`,
                   }}
                   custname={emailThreadObj?.customer_full_name}
                   type={threadType.document}
                   {...props}
-                />
+                /> */}
 
                 {emailThreadObj?.threads?.map((item, index) => {
                   //console.log('item >>>', item);

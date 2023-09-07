@@ -12,10 +12,12 @@ import {demoData} from '../utils/history_TempData';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   fetchScanerCustomerList,
+  fetchScanerProfile,
   selectCustomerHistory,
   selectLoading,
   selectUserObject,
 } from '../stores/reducers/auth';
+import Label from '../components/label';
 
 const HomeScreen = props => {
   const {navigation} = props;
@@ -39,15 +41,21 @@ const HomeScreen = props => {
     setRefreshing(false);
   };
 
+  const getScanerProfile = () => {
+    const headers = {Authorization: 'Bearer ' + userObj.token};
+    dispatch(fetchScanerProfile(headers));
+  };
+
   React.useEffect(() => {
     getCustomerHistoryHandler();
+    getScanerProfile();
   }, []);
 
   return (
     <View style={style.container}>
       {/* <CustomerHistory headerTitle={'Today`s Scan History'} /> */}
       <ScrollViewWrapper
-        style={{marginTop: 20}}
+        style={{marginTop: 20, marginBottom: 47}}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -58,25 +66,41 @@ const HomeScreen = props => {
           <ActivityIndicator size={'large'} color={colors.primary} />
         ) : (
           <>
-            <History
-              data={customerHistory.customer_data}
-              navigation={navigation}
-            />
-            <View
-              style={{paddingHorizontal: 10, marginTop: 20, marginBottom: 20}}>
-              <Button
-                onPress={naviateToAllHistoryHandler}
-                title={'View All History'}
-                iconname={'history'}
-                iconcolor={colors.primary}
-                iconsize={16}
-                bgColor={'transparent'}
-                textColor={colors.primary}
-                textSize={size.font14}
-                customStyle={true}
-                customButtonStyle={{paddingVertical: 10}}
-              />
-            </View>
+            {customerHistory?.customer_data?.length > 0 ? (
+              <>
+                <History
+                  data={customerHistory.customer_data}
+                  navigation={navigation}
+                />
+                <View style={{paddingHorizontal: 10, marginTop: 20}}>
+                  <Button
+                    onPress={naviateToAllHistoryHandler}
+                    title={'View All History'}
+                    iconname={'history'}
+                    iconcolor={colors.primary}
+                    iconsize={16}
+                    bgColor={'transparent'}
+                    textColor={colors.primary}
+                    textSize={size.font14}
+                    customStyle={true}
+                    customButtonStyle={{paddingVertical: 10}}
+                  />
+                </View>
+              </>
+            ) : (
+              <View
+                style={{
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  marginTop: 40,
+                }}>
+                <Label
+                  title={'No History Found.'}
+                  color={'#F35B5B'}
+                  enablecapitalize={false}
+                />
+              </View>
+            )}
           </>
         )}
       </ScrollViewWrapper>

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
+import {View, Image} from 'react-native';
 import style from '../styles/cardStyle';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import colors from '../theme/colors';
@@ -17,6 +17,7 @@ import TimeComponent from './timeComponent';
 
 const CustomCard = props => {
   const {
+    imageurl,
     name,
     date,
     uploadtime,
@@ -26,14 +27,31 @@ const CustomCard = props => {
     scanPress,
   } = props;
 
-  console.log('mailStatus >>', mailStatus);
+  console.log('imageurl >>', imageurl, typeof imageurl);
 
   return (
     <View style={style.container}>
       <View style={{flexDirection: 'column', flex: 1}}>
         <View style={style.namerow}>
           <View style={style.nameIcon}>
-            <Icon name={'account'} size={14} color={colors.white} />
+            {imageurl ? (
+              <Image
+                source={{uri: imageurl}}
+                style={{
+                  height: 20,
+                  width: 20,
+                  resizeMode: 'contain',
+                  borderRadius: 50,
+                }}
+              />
+            ) : (
+              <Icon
+                name={'account'}
+                size={18}
+                color={colors.white}
+                style={{backgroundColor: colors.black, borderRadius: 50}}
+              />
+            )}
           </View>
           <Label title={name} fontsize={size.font14} />
         </View>

@@ -6,7 +6,7 @@ import {
   getStringFromTimeHandler,
 } from '../utils/helper';
 import style from '../styles/fileViewStyle';
-import {size} from '../theme/fonts';
+import {family, size, weight} from '../theme/fonts';
 import DateComponent from './dateComponent';
 import TimeComponent from './timeComponent';
 import colors from '../theme/colors';
@@ -20,8 +20,8 @@ import {
 export const MailThreadComponent = props => {
   const {item, custname, type, navigation} = props;
   console.log('item Thrad >>', item);
-  const dateString = getStringFormDateHandler(item.updated_at);
-  const timestring = getStringFromTimeHandler(item.updated_at);
+  const dateString = getStringFormDateHandler(item.created_at);
+  const timestring = getStringFromTimeHandler(item.created_at);
 
   const ViewPDFFileHandler = (fileurl, filetype) => {
     navigation.navigate('openfileview', {fileurl: fileurl, filetype: filetype});
@@ -37,7 +37,15 @@ export const MailThreadComponent = props => {
           padding: 10,
           borderBottomWidth: 1,
         }}>
-        <Label title={type == threadType.thread ? 'Mailbox Staff' : custname} />
+        <Label
+          title={
+            type == threadType.thread &&
+            dbMailStatusEnum.Pending === item.current_status
+              ? 'Postal Email'
+              : custname
+          }
+          color={'#0E4179'}
+        />
         <View style={{...style.namerow}}>
           <View style={style.dateRow}>
             <DateComponent
@@ -55,7 +63,7 @@ export const MailThreadComponent = props => {
           </View>
         </View>
       </View>
-      {type == threadType.thread && (
+      {/* {type == threadType.thread && (
         <View
           style={{
             flexDirection: 'row',
@@ -64,46 +72,90 @@ export const MailThreadComponent = props => {
           }}>
           <Label title={`Hi ${custname}`} />
         </View>
-      )}
+      )} */}
       <View
         style={{
           flexDirection: 'row',
           justifyContent: 'flex-start',
           marginTop: 10,
         }}>
-        <Label title={item.message} enablecapitalize={false} />
+        {/*  item.message */}
+        <Label
+          title={
+            dbMailStatusEnum.Pending === item.current_status
+              ? `This Postal Mail has been sent to '${custname}'.`
+              : `'${custname}' responded your email.`
+          }
+          enablecapitalize={false}
+        />
       </View>
-      <View style={{flexDirection: 'row'}}>
+      {dbMailStatusEnum.Pending === item.current_status ? (
         <View
           style={{
-            marginTop: 20,
-            backgroundColor: dbmailStatusColor[item.current_status],
-            padding: 10,
-            borderRadius: 5,
-            marginRight: 10,
+            flexDirection: 'row',
+            alignItems: 'center',
+            //justifyContent: 'center',
           }}>
-          <Label
-            title={dbMailStatusEnum[item.current_status]}
-            color={colors.white}
-          />
-        </View>
-
-        {type == threadType.thread && (
-          <Pressable
+          <View
             style={{
               marginTop: 20,
-              backgroundColor: colors.primary,
+              backgroundColor: dbmailStatusColor[item.current_status],
               padding: 10,
               borderRadius: 5,
-            }}
-            //style={style.pdflist}
-            onPress={() =>
-              ViewPDFFileHandler(item.document_path, fileType.PDF)
-            }>
-            <Label title={'Attachment'} color={colors.white} />
-          </Pressable>
-        )}
-      </View>
+              marginRight: 10,
+            }}>
+            <Label
+              title={`${dbMailStatusEnum[item.current_status]}`}
+              color={colors.white}
+            />
+          </View>
+          {type == threadType.thread &&
+            dbMailStatusEnum.Pending === item.current_status && (
+              <Pressable
+                style={{
+                  marginTop: 20,
+                  backgroundColor: colors.primary,
+                  padding: 10,
+                  borderRadius: 5,
+                }}
+                //style={style.pdflist}
+                onPress={() =>
+                  ViewPDFFileHandler(item.document_path, fileType.PDF)
+                }>
+                <Label title={'Attachment'} color={colors.white} />
+              </Pressable>
+            )}
+        </View>
+      ) : (
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            marginTop: 10,
+          }}>
+          <Text
+            style={{
+              color: colors.black,
+              //fontFamily: family.fontFamily,
+              fontSize: size.font16,
+              fontWeight: weight.bold,
+            }}>{`Status: `}</Text>
+          <View
+            style={{
+              //marginTop: 20,
+              backgroundColor: dbmailStatusColor[item.current_status],
+              padding: 10,
+              borderRadius: 5,
+              marginRight: 10,
+            }}>
+            <Label
+              title={`${dbMailStatusEnum[item.current_status]}`}
+              color={colors.white}
+            />
+          </View>
+        </View>
+      )}
     </View>
   );
 };

@@ -29,7 +29,7 @@ const ProfileScreen = props => {
   const userProfile = useSelector(selectUserProfile);
   const loading = useSelector(selectLoading);
 
-  console.log('userProfile >>', userProfile);
+  //console.log('userProfile >>', userProfile);
 
   const userLogOutHandler = async () => {
     const headers = {Authorization: 'Bearer ' + userObj.token};
@@ -74,15 +74,19 @@ const ProfileScreen = props => {
         <>
           <View style={styles.userViewCard}>
             <View style={styles.userImageView}>
-              <Image
-                source={{uri: userProfile.user_photo}}
-                style={{
-                  height: 100,
-                  width: 100,
-                  resizeMode: 'contain',
-                  borderRadius: 50,
-                }}
-              />
+              {userProfile.user_photo ? (
+                <Image
+                  source={{uri: userProfile.user_photo}}
+                  style={{
+                    height: 100,
+                    width: 100,
+                    resizeMode: 'contain',
+                    borderRadius: 50,
+                  }}
+                />
+              ) : (
+                <Icon name={'account-circle'} size={100} color={colors.black} />
+              )}
               {/* <Icon name={'account-circle'} size={70} /> */}
             </View>
             <Label title={userProfile.name} fontsize={size.font23} />

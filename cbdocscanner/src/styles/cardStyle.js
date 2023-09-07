@@ -22,9 +22,9 @@ const style = StyleSheet.create({
     alignItems: 'center',
   },
   nameIcon: {
-    backgroundColor: colors.cardIconColor,
+    //backgroundColor: colors.cardIconColor,
     padding: 3,
-    borderRadius: 50,
+    //borderRadius: 50,
     marginRight: 7,
   },
   dateRow: {

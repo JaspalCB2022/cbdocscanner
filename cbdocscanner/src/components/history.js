@@ -38,7 +38,6 @@ const History = props => {
     <View>
       {data?.length > 0 &&
         data?.map((item, index) => {
-          //console.log('item >>', item);
           return (
             <CustomCard
               viewPress={() => navigateCustomerDetailHandler(item)}
@@ -49,6 +48,7 @@ const History = props => {
               uploadtime={getStringFromTimeHandler(item.document_updated_at)}
               mailboxnumber={item.mailbox_number}
               mailStatus={item.status}
+              imageurl={item.customer_photo_url}
             />
           );
         })}
