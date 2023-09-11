@@ -99,7 +99,7 @@ const CodeVerficationScreen = props => {
 
           const tempUserObj = {
             userObj: {
-              email: email.trim(),
+              email: email.toLowerCase().trim(),
               otpcode: otpstr,
               token: tempRes.data.data.access_token,
             },

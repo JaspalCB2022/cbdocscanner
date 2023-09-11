@@ -44,7 +44,7 @@ const LoginScreen = props => {
       const tempRes = await postApi(
         ApiURL.GenerateOTP,
         {
-          email: values.email.trim(),
+          email: values.email.toLowerCase(),
         },
         // headers,
       );

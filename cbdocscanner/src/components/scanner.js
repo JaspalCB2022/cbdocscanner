@@ -12,7 +12,6 @@ import DocumentScanner from 'react-native-document-scanner-plugin';
 import CustomerComponent from './customer';
 import RNImageToPdf from 'react-native-image-to-pdf';
 import metrics from '../theme/metrics';
-import TextRecognition from '@react-native-ml-kit/text-recognition';
 import RenderList from './list';
 import {types} from '../utils/constent';
 import Button from './button';
@@ -30,9 +29,6 @@ const ScannerComponent = () => {
       // get back an array with scanned image file paths
       if (scannedImages.length > 0) {
         //console.log('scannedImages >>>', scannedImages);
-        const result = await TextRecognition.recognize(scannedImages[0]);
-        //console.log('Recognized text:', result.text);
-        setScanedText(result.text);
         // set the img src, so we can view the first scanned image
         setScannedImage(scannedImages);
         if (scannedImages.length > 1) {
