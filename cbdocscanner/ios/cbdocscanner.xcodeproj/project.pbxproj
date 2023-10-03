@@ -66,6 +66,7 @@
 		94624DA180BB44B19F9CFD30 /* GTEestiProDispTrialThin-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GTEestiProDispTrialThin-Italic.ttf"; path = "../src/assets/fonts/GTEestiProDispTrialThin-Italic.ttf"; sourceTree = "<group>"; };
 		94FF1BEA059E46B9BCC12371 /* GTEestiProDispTrialMedium-Itali.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GTEestiProDispTrialMedium-Itali.ttf"; path = "../src/assets/fonts/GTEestiProDispTrialMedium-Itali.ttf"; sourceTree = "<group>"; };
 		9734F5241ADE429798C7CFC4 /* GTEestiProDispTrialThin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = GTEestiProDispTrialThin.ttf; path = ../src/assets/fonts/GTEestiProDispTrialThin.ttf; sourceTree = "<group>"; };
+		9DE9CF632AB877CF00F3784E /* libreact-native-html-to-pdf.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libreact-native-html-to-pdf.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AABEADFA21C3492CBACF2B2C /* GTEestiProDispTrialLight-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GTEestiProDispTrialLight-Italic.ttf"; path = "../src/assets/fonts/GTEestiProDispTrialLight-Italic.ttf"; sourceTree = "<group>"; };
 		C3A48BDF87864EA3BD9F0763 /* GTEestiProDispTrialRegular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = GTEestiProDispTrialRegular.ttf; path = ../src/assets/fonts/GTEestiProDispTrialRegular.ttf; sourceTree = "<group>"; };
 		C820304B63A94AEBB9ADF81E /* GTEestiProDispTrialMedium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = GTEestiProDispTrialMedium.ttf; path = ../src/assets/fonts/GTEestiProDispTrialMedium.ttf; sourceTree = "<group>"; };
@@ -127,6 +128,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9DE9CF632AB877CF00F3784E /* libreact-native-html-to-pdf.a */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				5DCACB8F33CDC322A6C60F78 /* libPods-cbdocscanner.a */,
 				19F6CBCC0A4E27FBF8BF4A61 /* libPods-cbdocscanner-cbdocscannerTests.a */,

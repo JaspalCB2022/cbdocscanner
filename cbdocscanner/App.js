@@ -8,10 +8,14 @@ import {store} from './src/stores/index';
 import {PersistGate} from 'redux-persist/integration/react';
 import {persistStore} from 'redux-persist';
 import {ToastProvider} from 'react-native-toast-notifications';
+import SplashScreen from 'react-native-splash-screen';
 
 const persistor = persistStore(store);
 
 const App = () => {
+  React.useEffect(() => {
+    SplashScreen.hide();
+  }, []);
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>

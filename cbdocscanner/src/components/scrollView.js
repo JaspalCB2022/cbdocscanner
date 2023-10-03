@@ -16,9 +16,14 @@ const ScrollViewWrapper = props => {
       horizontal={enableHorizontal}
       showsHorizontalScrollIndicator={horizontalScroll}
       showsVerticalScrollIndicator={verticalScroll}
+      keyboardShouldPersistTaps={'handled'}
       style={style}
+      extraScrollHeight={110}
       {...props}>
-      <ScrollView>{children}</ScrollView>
+      <ScrollView
+        contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}>
+        {children}
+      </ScrollView>
     </KeyboardAwareScrollView>
   );
 };

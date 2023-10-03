@@ -1,5 +1,13 @@
 import React from 'react';
-import {View, Text, Pressable, Image} from 'react-native';
+import {
+  View,
+  Text,
+  Pressable,
+  Image,
+  Dimensions,
+  Platform,
+  TouchableOpacity,
+} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import HomeScreen from '../screens/homeScreen';
 import ProfileScreen from '../screens/profileScreen';
@@ -14,12 +22,12 @@ import CustomerFileView from '../screens/customerFileView';
 import OpenFileViewer from '../screens/OpenFileViewer';
 import {useSelector} from 'react-redux';
 import {selectUserProfile} from '../stores/reducers/auth';
+import metrics from '../theme/metrics';
 
 const Stack = createStackNavigator();
 
 function MyHomeStack() {
   const userProfile = useSelector(selectUserProfile);
-
   return (
     <Stack.Navigator initialRouteName="Home">
       <Stack.Screen
@@ -34,7 +42,7 @@ function MyHomeStack() {
           headerRight: () => {
             return (
               <View style={{marginRight: 20}}>
-                <Pressable
+                <TouchableOpacity
                   onPress={
                     getFocusedRouteNameFromRoute(route) !== 'profile'
                       ? () => navigation.navigate('profile')
@@ -42,10 +50,13 @@ function MyHomeStack() {
                   }>
                   {userProfile?.user_photo ? (
                     <Image
-                      source={{uri: userProfile?.user_photo}}
+                      source={{
+                        uri: userProfile?.user_photo,
+                        //cache: 'only-if-cached',
+                      }}
                       style={{
-                        height: 30,
                         width: 30,
+                        height: 30,
                         resizeMode: 'contain',
                         borderRadius: 50,
                       }}
@@ -57,7 +68,7 @@ function MyHomeStack() {
                       color={colors.black}
                     />
                   )}
-                </Pressable>
+                </TouchableOpacity>
               </View>
             );
           },

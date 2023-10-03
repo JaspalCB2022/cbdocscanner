@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Image, ActivityIndicator} from 'react-native';
+import {View, Image, ActivityIndicator, Platform} from 'react-native';
 import colors from '../theme/colors';
 import Label from '../components/label';
 import Button from '../components/button';
@@ -34,7 +34,7 @@ const ProfileScreen = props => {
   const userLogOutHandler = async () => {
     const headers = {Authorization: 'Bearer ' + userObj.token};
     const tempRes = await postApi(ApiURL.logoutuser, {}, headers);
-    console.log('tempRes >>', tempRes);
+    //console.log('tempRes >>', tempRes);
     if (tempRes.status === 200) {
       const tempUserObj = {
         userObj: {},
@@ -78,10 +78,10 @@ const ProfileScreen = props => {
                 <Image
                   source={{uri: userProfile.user_photo}}
                   style={{
-                    height: 100,
-                    width: 100,
+                    height: Platform.OS == 'android' ? 100 : 150,
+                    width: Platform.OS == 'android' ? 100 : 150,
                     resizeMode: 'contain',
-                    borderRadius: 50,
+                    borderRadius: 100,
                   }}
                 />
               ) : (
@@ -96,24 +96,7 @@ const ProfileScreen = props => {
             style={{
               alignSelf: 'flex-start',
               flexDirection: 'row',
-            }}>
-            <View style={{flexDirection: 'column'}}>
-              <Label
-                title={'Gender'}
-                fontsize={size.font17}
-                styles={{marginBottom: 10}}
-              />
-              <Label
-                title={userProfile.gender}
-                opacity={0.6}
-                styles={{
-                  marginBottom: 5,
-                  backgroundColor: colors.backgorundColor,
-                  padding: 10,
-                }}
-              />
-            </View>
-          </View>
+            }}></View>
 
           <View
             style={{
@@ -121,7 +104,7 @@ const ProfileScreen = props => {
               flexDirection: 'row',
               marginTop: 15,
             }}>
-            <View style={{flexDirection: 'column'}}>
+            <View style={{flexDirection: 'column', width: '100%'}}>
               <Label
                 title={'email'}
                 fontsize={size.font17}
@@ -137,17 +120,45 @@ const ProfileScreen = props => {
                   backgroundColor: colors.backgorundColor,
                   padding: 10,
                 }}
+                enablecapitalize={false}
               />
             </View>
           </View>
 
           <View
             style={{
-              alignSelf: 'flex-start',
+              //alignSelf: 'flex-start',
               flexDirection: 'row',
+              justifyContent: 'space-between',
               marginTop: 4,
             }}>
-            <View style={{flexDirection: 'column'}}>
+            <View
+              style={{
+                flexDirection: 'column',
+                width: '50%',
+                paddingHorizontal: 5,
+              }}>
+              <Label
+                title={'Gender'}
+                fontsize={size.font17}
+                styles={{marginBottom: 10}}
+              />
+              <Label
+                title={userProfile.gender}
+                opacity={0.6}
+                styles={{
+                  marginBottom: 5,
+                  backgroundColor: colors.backgorundColor,
+                  padding: 10,
+                }}
+              />
+            </View>
+            <View
+              style={{
+                flexDirection: 'column',
+                width: '50%',
+                paddingHorizontal: 5,
+              }}>
               <Label
                 title={'Date of Birth'}
                 fontsize={size.font17}
@@ -163,6 +174,71 @@ const ProfileScreen = props => {
                   marginBottom: 20,
                   backgroundColor: colors.backgorundColor,
                   padding: 10,
+                }}
+              />
+            </View>
+          </View>
+          <View
+            style={{
+              alignSelf: 'flex-start',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginTop: 4,
+            }}>
+            <View
+              style={{
+                flexDirection: 'column',
+                width: '100%',
+                paddingHorizontal: 5,
+              }}>
+              <Label
+                title={'Store Name'}
+                fontsize={size.font17}
+                styles={{
+                  marginBottom: 10,
+                }}
+                enablecapitalize={false}
+              />
+              <Label
+                title={userProfile.store_name}
+                opacity={0.6}
+                styles={{
+                  marginBottom: 20,
+                  backgroundColor: colors.backgorundColor,
+                  padding: 10,
+                }}
+              />
+            </View>
+          </View>
+          <View
+            style={{
+              alignSelf: 'flex-start',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginTop: 4,
+            }}>
+            <View
+              style={{
+                flexDirection: 'column',
+                width: '100%',
+                paddingHorizontal: 5,
+              }}>
+              <Label
+                title={'Store Address'}
+                fontsize={size.font17}
+                styles={{
+                  marginBottom: 10,
+                }}
+                enablecapitalize={false}
+              />
+              <Label
+                title={`${userProfile.store_address}`}
+                opacity={0.6}
+                styles={{
+                  marginBottom: 20,
+                  backgroundColor: colors.backgorundColor,
+                  padding: 10,
+                  flexWrap: 'wrap',
                 }}
               />
             </View>

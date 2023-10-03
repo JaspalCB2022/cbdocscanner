@@ -1,16 +1,22 @@
-import {Platform, NativeModules, Appearance} from 'react-native';
+import {
+  Platform,
+  NativeModules,
+  Appearance,
+  Image as RNImage,
+} from 'react-native';
 import DocumentScanner from 'react-native-document-scanner-plugin';
 import metrics from '../theme/metrics';
 import {Image} from 'react-native-compressor';
 import {manipulate} from 'react-native-image-manipulator';
-//import RNFS from 'react-native-fs';
+import RNFS from 'react-native-fs';
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
+import {createPdf} from 'react-native-images-to-pdf';
 
 const AlertMsgObj = msgtype => {
   return {
     type: msgtype,
-    placement: 'top',
-    duration: 1000,
+    placement: 'bottom',
+    duration: 2000,
     offset: 30,
     animationType: 'zoom-in',
   };
@@ -46,43 +52,42 @@ const generatePDFFromImages = async imagePaths => {
   }
 };
 
-// const downloadImages = async imageUrls => {
-//   const downloadedPaths = [];
+const downloadImages = async imageUrls => {
+  const downloadedPaths = [];
 
-//   try {
-//     for (let i = 0; i < imageUrls.length; i++) {
-//       const imageUrl = imageUrls[i];
-//       const imageName = `downloaded_image_${i}.jpg`; // You can customize the naming logic
+  try {
+    for (let i = 0; i < imageUrls.length; i++) {
+      const imageUrl = imageUrls[i];
+      const imageName = `downloaded_image_${i}.jpg`; // You can customize the naming logic
 
-//       const downloadDest = `${RNFS.CachesDirectoryPath}/${imageName}`;
+      const downloadDest = `${RNFS.DocumentDirectoryPath}/${imageName}`;
 
-//       const options = {
-//         fromUrl: imageUrl,
-//         toFile: downloadDest,
-//       };
+      const options = {
+        fromUrl: imageUrl,
+        toFile: downloadDest,
+      };
 
-//       const response = await RNFS.downloadFile(options).promise.then(
-//         response => {
-//           console.log('File downloaded!', response);
-//           if (response.statusCode === 200) {
-//             downloadedPaths.push(downloadDest);
-//           } else {
-//             console.error(
-//               `Image ${i} download failed with status code: `,
-//               response.statusCode,
-//             );
-//             downloadedPaths.push(null);
-//           }
-//         },
-//       );
-//     }
-
-//     return downloadedPaths;
-//   } catch (error) {
-//     console.error('Error during image download: ', error);
-//     return downloadedPaths;
-//   }
-// };
+      const response = await RNFS.downloadFile(options).promise.then(
+        response => {
+          console.log('File downloaded!', response);
+          if (response.statusCode === 200) {
+            downloadedPaths.push(downloadDest);
+          } else {
+            console.error(
+              `Image ${i} download failed with status code: `,
+              response.statusCode,
+            );
+            downloadedPaths.push(null);
+          }
+        },
+      );
+    }
+    return downloadedPaths;
+  } catch (error) {
+    console.error('Error during image download: ', error);
+    return downloadedPaths;
+  }
+};
 
 // const generatePDFFromImprovedImages = async imagePaths => {
 //   try {
@@ -109,31 +114,85 @@ const generatePDFFromImages = async imagePaths => {
 //   }
 // };
 
+// const generatePDFFromImprovedImages__OLD = async imagePaths => {
+//   // const images = [
+//   //   'path/to/image1.jpg',
+//   //   'path/to/image2.jpg',
+//   //   'path/to/image3.jpg',
+//   // ];
+//   console.log('imagePaths >>', imagePaths);
+
+//   if (imagePaths && imagePaths.length > 0) {
+//     //const downloadedPaths = await downloadImages(imagePaths);
+//     //console.log('downloadedPaths >> ', downloadedPaths);
+//     const filePath = RNFS.DocumentDirectoryPath + '/cbscdocpdf.pdf';
+
+//     const pdfOptions = {
+//       html: `<html>
+//       <body>${imagePaths
+//         .map((url, index) => `<img src="${url}" alt="Image ${index + 1}/>`)
+//         .join('')}</body></html>`,
+//       fileName: 'cbscdocpdf',
+//       directory: 'Documents',
+//     };
+
+//     try {
+//       const pdf = await RNHTMLtoPDF.convert(pdfOptions);
+//       console.log('PDF generated', pdf);
+//       //return { pdfFilePath: pdf.filePath };
+//       return {pdfFilePath: filePath};
+//     } catch (error) {
+//       console.error('Error generating PDF', error);
+//     }
+//   }
+// };
 const generatePDFFromImprovedImages = async imagePaths => {
-  // const images = [
-  //   'path/to/image1.jpg',
-  //   'path/to/image2.jpg',
-  //   'path/to/image3.jpg',
-  // ];
-  console.log('imagePaths >>', imagePaths);
-
   if (imagePaths && imagePaths.length > 0) {
-    //const downloadedPaths = await downloadImages(imagePaths);
-    //console.log('downloadedPaths >> ', downloadedPaths);
-    const pdfOptions = {
-      html: `<html><body>${imagePaths
-        .map(image => `<img src="${image}" width="100%" height="100%"  />`)
-        .join('')}</body></html>`,
-      fileName: 'cbscdocpdf',
-      directory: 'Documents',
-    };
+    if (Platform.OS === 'android') {
+      //const downloadedPaths = await downloadImages(imagePaths);
+      //console.log('downloadedPaths >> ', downloadedPaths);
+      const pdfOptions = {
+        html: `<html>
+      <body>
+        ${imagePaths
+          .map(
+            (image, index) => `
+          <img src="${image}" alt="Image ${
+              index + 1
+            }" style="max-width: 100%; height: 100%;" />
+        `,
+          )
+          .join('')}
+      </body>
+    </html>`,
+        fileName: 'cbscdocpdf',
+        directory: 'Documents',
+      };
 
-    try {
       const pdf = await RNHTMLtoPDF.convert(pdfOptions);
-      console.log('PDF generated', pdf.filePath);
+      //console.log('PDF generated', pdf);
       return {pdfFilePath: pdf.filePath};
-    } catch (error) {
-      console.error('Error generating PDF', error);
+    } else {
+      const filePath = RNFS.DocumentDirectoryPath + '/cbscdocpdf.pdf';
+      const pages = [];
+      for (let imagepath of imagePaths) {
+        pages.push({
+          imagePath: imagepath,
+          imageFit: 'contain',
+        });
+      }
+
+      try {
+        console.log('filePath>>', filePath);
+
+        const uri = await createPdf({
+          outputPath: `file://${filePath}`,
+          pages,
+        });
+        return {pdfFilePath: uri};
+      } catch (error) {
+        console.error('Error generating PDF', error);
+      }
     }
   }
 };
@@ -162,22 +221,8 @@ const getStringFromTimeHandler = timestring => {
   return parsedTimestamp;
 };
 
-const applyFilter = async sourceUri => {
-  try {
-    //console.log('sourceUri >>', sourceUri);
-    const manipResult = await manipulate(sourceUri, [
-      {brightness: 0.2}, // Adjust brightness (values between -1 and 1)
-      {contrast: 1.5}, // Adjust contrast (values greater than 1)
-    ]);
-    return manipResult.uri;
-  } catch (error) {
-    console.error('Error applying filter:', error);
-  }
-};
-
 export {
   generatePDFFromImprovedImages,
-  applyFilter,
   AlertMsgObj,
   getScanDocuemnt,
   generatePDFFromImages,

@@ -24,7 +24,6 @@ import Button from '../components/button';
 import {AlertTypes} from '../utils/constent';
 import {
   AlertMsgObj,
-  applyFilter,
   compressImage,
   generatePDFFromImages,
   generatePDFFromImprovedImages,
@@ -32,7 +31,6 @@ import {
 } from '../utils/helper';
 import {postApi} from '../services/api';
 import {useToast} from 'react-native-toast-notifications';
-import {StackActions} from '@react-navigation/native';
 import {useNavigation, CommonActions} from '@react-navigation/native';
 
 const SendToCustomerScreen = props => {
@@ -47,16 +45,10 @@ const SendToCustomerScreen = props => {
   const [search, setSearch] = React.useState('');
   const [loading, setLoading] = React.useState(false);
   const [selectedRow, setSelectedRow] = React.useState(null);
-  const [filteredList, setFilteredList] = React.useState(
-    customers?.length > 0 ? customers : [],
-  );
-  const [customerList, setCustomerList] = React.useState(
-    customers?.length > 0 ? customers : [],
-  );
-
+  const [filteredList, setFilteredList] = React.useState(customers);
+  const [customerList, setCustomerList] = React.useState(customers);
   const [refreshing, setRefreshing] = React.useState(false);
-
-  //console.log('customers >', customers);
+  const [loadermsg, setLoadermsg] = React.useState('');
 
   const searchFilterFunction = text => {
     // Check if searched text is not blank
@@ -91,12 +83,10 @@ const SendToCustomerScreen = props => {
     setCustomerList(customers);
     setRefreshing(false);
   };
-
   async function compressAllImages() {
     const tempData = [];
     for (const item of scanedImage) {
       try {
-        //const outputImage = applyFilter(item);
         //console.log('outputImage >>>', outputImage);
         const res = await compressImage(item);
         //console.log('res >>', res);
@@ -104,6 +94,7 @@ const SendToCustomerScreen = props => {
         tempData.push(res);
       } catch (error) {
         // Handle errors if needed
+        console.log('erorr>>>>', error);
       }
     }
     return tempData;
@@ -123,17 +114,16 @@ const SendToCustomerScreen = props => {
   };
 
   const UploadScanedDocumentHandler = async item => {
-    console.log('Customer Object >>>', item);
+    //console.log('Customer Object >>>', item);
     try {
       if (scanedImage.length > 0) {
         const formData = new FormData();
-
         setLoading(true);
         const tempdata = improvedImages; //await compressAllImages();
-        console.log('tempdata >>>', tempdata);
+        // console.log('tempdata >>>', tempdata);
         if (tempdata.length > 0) {
           tempdata.forEach((item, index) => {
-            //console.log('item >>', item);
+            console.log('item >>', item);
             formData.append('scanImages', {
               uri: item,
               type: 'image/jpeg',
@@ -146,34 +136,28 @@ const SendToCustomerScreen = props => {
             pdfFilePath,
             //tempExtractObj,
           );
+          ////file.uri.replace('file://', '')
+          const filepath =
+            Platform.OS === 'android' ? `file:///${pdfFilePath}` : pdfFilePath;
+
           formData.append('imagesPdf', {
-            uri: `file:///${pdfFilePath}`,
+            uri: filepath,
             type: 'application/pdf',
             name: 'cbscdocpdf.pdf',
           });
           formData.append('extractedText', '');
           formData.append('customer_id', item.customer_id);
-          console.log('formData >>', formData);
+          console.log('formData >iuuuiui>', formData);
           const headers = {
+            Authorization: 'Bearer ' + userObj.token,
             accept: 'application/json',
             'Content-Type': 'multipart/form-data',
-            Authorization: 'Bearer ' + userObj.token,
           };
 
-          // const requestOptions = {
-          //   method: 'POST',
-          //   headers: {
-          //     'Content-Type': 'multipart/form-data',
-          //     Authorization: 'Bearer ' + userObj.token,
-          //   },
-          //   body: JSON.stringify(formData),
-          // };
-          // const response = await fetch(
-          //   ApiURL.SaveimagespdfText,
-          //   requestOptions,
-          // );
-          // const tempRes = await response.json();
-
+          setLoadermsg('Sending...');
+          console.log('  ApiURL.SaveimagespdfText>>', ApiURL.SaveimagespdfText);
+          console.log('  formData>>', formData);
+          console.log('  headers>>', headers);
           const tempRes = await postApi(
             ApiURL.SaveimagespdfText,
             formData,
@@ -181,6 +165,7 @@ const SendToCustomerScreen = props => {
           );
           console.log('tempRes >>', tempRes);
           if (tempRes?.status === 200) {
+            setLoadermsg('');
             const tempmsg = `Sent Successfully to ${item.name}.`;
             setLoading(false);
             const tempObj = AlertMsgObj(AlertTypes.success);
@@ -191,16 +176,19 @@ const SendToCustomerScreen = props => {
             //navigation.navigate('homestack', {screen: 'Home', params: {}});
             handleNavigateBackToHome();
           } else {
+            setLoadermsg('');
             setLoading(false);
             const tempObj = AlertMsgObj(AlertTypes.danger);
             toast.show(tempRes?.response?.data?.message, tempObj);
           }
         } else {
+          setLoadermsg('');
           setLoading(false);
         }
         //setLoading(false);
       }
     } catch (err) {
+      setLoadermsg('');
       console.log('err >>', err);
       const tempObj = AlertMsgObj(AlertTypes.danger);
       toast.show(err.message, tempObj);
@@ -258,15 +246,18 @@ const SendToCustomerScreen = props => {
 
   React.useEffect(() => {
     getCustomersListHandler();
-    return () => {
-      getCustomersListHandler();
-    };
   }, []);
 
   return (
     <View style={styles.sendContainer}>
       {loading ? (
-        <ActivityIndicator color={colors.buttonBackgrounColor} size={'large'} />
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Text style={{color: colors.black}}>{'Please wait ....'}</Text>
+          <ActivityIndicator
+            color={colors.buttonBackgrounColor}
+            size={'large'}
+          />
+        </View>
       ) : (
         <>
           <View style={{marginTop: 30}}>

@@ -27,8 +27,6 @@ const CustomCard = props => {
     scanPress,
   } = props;
 
-  console.log('imageurl >>', imageurl, typeof imageurl);
-
   return (
     <View style={style.container}>
       <View style={{flexDirection: 'column', flex: 1}}>
@@ -95,7 +93,8 @@ const CustomCard = props => {
 
       <View style={{flexDirection: 'column', justifyContent: 'center'}}>
         {/* mailStatus === dbMailStatusEnum[2] */}
-        {mailStatus === dbMailStatusEnum[1] && (
+        {(mailStatus === dbMailStatusEnum[1] ||
+          mailStatus === dbMailStatusEnum[3]) && (
           <View style={{marginBottom: 10}}>
             <Button
               title={'Scan'}

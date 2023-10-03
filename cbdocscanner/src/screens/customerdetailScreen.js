@@ -45,7 +45,7 @@ const CustomerDetailScreen = props => {
   const [refreshing, setRefreshing] = React.useState(false);
 
   const customerid = route?.params?.customerid;
-  console.log('customerDetail >>', customerDetail);
+  //console.log('customerDetail >>', customerDetail);
   const getCustomerDetailHandler = () => {
     setRefreshing(true);
     //console.log('function Call start');

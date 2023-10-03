@@ -19,7 +19,7 @@ import {
 
 export const MailThreadComponent = props => {
   const {item, custname, type, navigation} = props;
-  console.log('item Thrad >>', item);
+  //console.log('item Thrad >>', item);
   const dateString = getStringFormDateHandler(item.created_at);
   const timestring = getStringFromTimeHandler(item.created_at);
 

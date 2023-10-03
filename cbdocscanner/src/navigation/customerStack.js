@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Pressable, Image} from 'react-native';
+import {View, Pressable, Image, TouchableOpacity} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import ProfileScreen from '../screens/profileScreen';
 import CustomersScreen from '../screens/customerScreen';
@@ -12,6 +12,7 @@ import CustomerFileView from '../screens/customerFileView';
 import OpenFileViewer from '../screens/OpenFileViewer';
 import {useSelector} from 'react-redux';
 import {selectUserProfile} from '../stores/reducers/auth';
+import AddCustomer from '../screens/addCustomerScreen';
 
 const Stack = createStackNavigator();
 
@@ -33,7 +34,7 @@ function MyCustomerStack() {
           headerRight: () => {
             return (
               <View style={{marginRight: 20}}>
-                <Pressable
+                <TouchableOpacity
                   onPress={
                     getFocusedRouteNameFromRoute(route) !== 'profile'
                       ? () => navigation.navigate('profile')
@@ -56,7 +57,7 @@ function MyCustomerStack() {
                       color={colors.black}
                     />
                   )}
-                </Pressable>
+                </TouchableOpacity>
               </View>
             );
           },
@@ -73,11 +74,6 @@ function MyCustomerStack() {
           },
         }}
       />
-      {/* <Stack.Screen
-        name="sendtocustomer"
-        component={SendToCustomerScreen}
-        options={{headerTitle: ''}}
-      /> */}
       <Stack.Screen
         name="customerdetail"
         component={CustomerDetailScreen}
@@ -105,6 +101,17 @@ function MyCustomerStack() {
         component={OpenFileViewer}
         options={{
           headerTitle: '',
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            fontFamily: family.fontFamily,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="addcustomer"
+        component={AddCustomer}
+        options={{
+          headerTitle: 'Add Customer',
           headerTitleAlign: 'center',
           headerTitleStyle: {
             fontFamily: family.fontFamily,

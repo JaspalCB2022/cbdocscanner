@@ -3,7 +3,7 @@ import React from 'react';
 import colors from '../theme/colors';
 import {size} from '../theme/fonts';
 import CustomCard from './card';
-import {View} from 'react-native';
+import {View, FlatList} from 'react-native';
 import {
   getStringFormDateHandler,
   getStringFromTimeHandler,
@@ -38,6 +38,7 @@ const History = props => {
     <View>
       {data?.length > 0 &&
         data?.map((item, index) => {
+          //console.log('item >>', item);
           return (
             <CustomCard
               viewPress={() => navigateCustomerDetailHandler(item)}

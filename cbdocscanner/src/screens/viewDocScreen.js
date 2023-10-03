@@ -7,6 +7,7 @@ import {
   ImageBackground,
   Dimensions,
   ActivityIndicator,
+  Platform,
 } from 'react-native';
 import colors from '../theme/colors';
 import Label from '../components/label';
@@ -19,7 +20,6 @@ import style from '../styles/globalStyle';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   AlertMsgObj,
-  applyFilter,
   compressImage,
   compressImageHandler,
   generatePDFFromImages,
@@ -67,16 +67,21 @@ const ViewDocumentScreen = props => {
     if (tempscannedImages) {
       setLoading(true);
       //console.log('scannedImages >>', scannedImages);
-      //const tempFilter = await applyFilter(tempscannedImages[0]);
       //console.log('tempFilter >>', tempFilter);
 
+      const filepath =
+        Platform.OS === 'ios'
+          ? tempscannedImages[0].replace('file://', '')
+          : tempscannedImages[0];
+      //console.log('filepath >>', filepath);
+      const res = await compressImage(filepath);
       const headers = {
         'Content-Type': 'multipart/form-data',
         Authorization: 'Bearer ' + userObj.token,
       };
       const formData = new FormData();
       formData.append('imagefile', {
-        uri: tempscannedImages[0],
+        uri: res,
         type: 'image/jpeg',
         name: `image${new Date()}.jpg`,
       });
@@ -118,10 +123,9 @@ const ViewDocumentScreen = props => {
       try {
         if (scannedImage.length > 0) {
           const formData = new FormData();
-
           setLoading(true);
           const tempdata = improvedImages; // await compressAllImages();
-          console.log('tempdata >>>', tempdata);
+          //console.log('tempdata >>>', tempdata);
           if (tempdata.length > 0) {
             tempdata.forEach((item, index) => {
               //console.log('item >>', item);
@@ -132,13 +136,17 @@ const ViewDocumentScreen = props => {
               });
             });
             const {pdfFilePath} = await generatePDFFromImprovedImages(tempdata); //generatePDFFromImages(tempdata);
-            console.log(
-              'pdfFilePath >>',
-              pdfFilePath,
-              //tempExtractObj,
-            );
+            // console.log(
+            //   'pdfFilePath >>',
+            //   pdfFilePath,
+            //   //tempExtractObj,
+            // );
+            const filepath =
+              Platform.OS === 'android'
+                ? `file:///${pdfFilePath}`
+                : pdfFilePath;
             formData.append('new_pdf', {
-              uri: `file:///${pdfFilePath}`,
+              uri: filepath,
               type: 'application/pdf',
               name: 'cbscdocpdf.pdf',
             });
@@ -153,7 +161,7 @@ const ViewDocumentScreen = props => {
             const apiurl =
               ApiURL.updateDocuemnt + route?.params?.document_id + '/';
             const tempRes = await postApi(apiurl, formData, headers);
-            console.log('tempRes >>', tempRes);
+            //console.log('tempRes >>', tempRes);
             if (tempRes?.status === 200) {
               const tempmsg = `Sent Successfully.`; //to ${item.name}
               setLoading(false);
@@ -163,15 +171,6 @@ const ViewDocumentScreen = props => {
               //navigation.reset({index: 0, routes: [{name: 'setTwoScreens'}]});
               //navigation.navigate('homestack', {screen: 'Home'});
               handleNavigateBackToHome();
-              //navigation.navigate('homestack', {screen: 'Home', params: {}});
-
-              // const resetAction = StackActions.reset({
-              //   index: 0,
-              //   actions: [
-              //     NavigationActions.navigate('homestack', {screen: 'Home'}),
-              //   ],
-              // });
-              // navigation.dispatch(resetAction);
             } else {
               setLoading(false);
               const tempObj = AlertMsgObj(AlertTypes.danger);
@@ -197,7 +196,6 @@ const ViewDocumentScreen = props => {
     const tempData = [];
     for (const item of scannedImage) {
       try {
-        //const outputImage = applyFilter(item);
         //console.log('outputImage >>>', outputImage);
         const res = await compressImage(item);
         //console.log('res >>', res);
@@ -219,7 +217,10 @@ const ViewDocumentScreen = props => {
         backgroundColor: colors.white,
       }}>
       {loading ? (
-        <ActivityIndicator color={colors.primary} size={'large'} />
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Text style={{color: colors.black}}>{'Please wait ....'}</Text>
+          <ActivityIndicator size={'large'} color={colors.primary} />
+        </View>
       ) : (
         <>
           <View style={{flex: 1, alignItems: 'center'}}>
@@ -252,7 +253,7 @@ const ViewDocumentScreen = props => {
                             borderRadius: 5,
                             // You can adjust the intensity of the grayscale accoding. value of 0% will produce a normal images.
                           }}
-                          resizeMode={'center'}
+                          resizeMode={'contain'}
                         />
                       </Pressable>
                       {index !== scannedImage.length - 1 && (

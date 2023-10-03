@@ -113,22 +113,13 @@ function MyBottomNavigatior() {
             if (
               routeName === 'customerdetail' ||
               routeName === 'fileview' ||
-              routeName === 'openfileview'
+              routeName === 'openfileview' ||
+              routeName === 'addcustomer'
             ) {
               return {display: 'none'};
             }
             return;
           })(route),
-          // tabBarStyle: {
-          //   ...style.shadow,
-          //   //borderTopWidth: 1,
-          //   //elevation: 0,
-          //   padding: 7,
-          //   showLabel: false,
-          //   height: Platform.OS == 'android' ? 55 : 85,
-          //   borderTopWidth: 0,
-          //   elevation: 20,
-          // },
         })}
       />
     </Tab.Navigator>

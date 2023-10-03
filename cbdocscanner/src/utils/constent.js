@@ -37,7 +37,9 @@ const dbMailStatusEnum = {
   'forward to me': 'Forward to Me',
   Pending: 'Pending',
   Done: 'Done',
+  Rescan: 'Rescan',
   1: 'OpenScan',
+  3: 'Rescan',
   2: 'Shred',
 };
 
@@ -48,6 +50,7 @@ const dbmailStatusColor = {
   Notmine: '#EC5F5F',
   'forward to me': '#768eab',
   Done: '#0DAF28',
+  Rescan: '#7B83EB',
 };
 
 const fileType = {

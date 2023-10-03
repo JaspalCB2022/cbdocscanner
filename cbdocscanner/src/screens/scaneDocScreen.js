@@ -13,6 +13,7 @@ import {
   Alert,
 } from 'react-native';
 import colors from '../theme/colors';
+import {compressImage} from '../utils/helper';
 
 const ScannedDocumentScreen = props => {
   const {navigation, route} = props;
@@ -56,16 +57,24 @@ const ScannedDocumentScreen = props => {
         maxNumDocuments: 1,
         croppedImageQuality: 100,
       });
+      console.log('scannedImages >>', scannedImages);
       if (scannedImages) {
         setLoading(true);
-        console.log('scannedImages >>', scannedImages);
+        const filepath =
+          Platform.OS === 'ios'
+            ? scannedImages[0].replace('file://', '')
+            : scannedImages[0];
+        //console.log('filepath >>', filepath);
+
+        const res = await compressImage(filepath);
+
         const headers = {
           'Content-Type': 'multipart/form-data',
           Authorization: 'Bearer ' + userObj.token,
         };
         const formData = new FormData();
         formData.append('imagefile', {
-          uri: scannedImages[0],
+          uri: res,
           type: 'image/jpeg',
           name: `image${new Date()}.jpg`,
         });

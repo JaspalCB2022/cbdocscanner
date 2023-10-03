@@ -1,6 +1,8 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import {getApi, postApi} from '../../services/api';
 import ApiURL from '../../services/apiURL';
+import moment from 'moment';
+import {stat} from 'react-native-fs';
 
 const initialState = {
   isLoggedIn: false,
@@ -15,6 +17,7 @@ const initialState = {
   threadObject: {},
   token: true,
   allHistory: [],
+  historyObj: {customer_data: [], page: 0, count: 0, totalPage: 0},
 };
 
 const authSlice = createSlice({
@@ -22,7 +25,7 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     updateUserObj: (state, action) => {
-      console.log('updateUserObj >>', action.payload);
+      //console.log('updateUserObj >>', action.payload);
       const {userObj, isLogin} = action.payload;
       state.userObj = userObj;
       state.isLoggedIn = isLogin;
@@ -31,13 +34,15 @@ const authSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(fetchCustomerList.pending, state => {
       state.loading = true;
+      state.customers = [];
     });
     builder.addCase(fetchCustomerList.fulfilled, (state, action) => {
       //console.log('action.payload>>', action.payload);
+      state.loading = false;
+
       const {response} = action.payload;
       //console.log('response.data.data >>', response.data.data);
       if (response.status === 200) {
-        state.loading = false;
         state.customers = response.data.data;
       }
       state.isSuccess = true;
@@ -54,10 +59,14 @@ const authSlice = createSlice({
     builder.addCase(fetchScanerProfile.fulfilled, (state, action) => {
       //console.log('action.payload>>', action.payload);
       const {response} = action.payload;
-      console.log('response.data.data >>', response.data.data);
+      //console.log('response.data.data >>', response.data.data);
       if (response.status === 200) {
         state.loading = false;
-        state.userProfile = response.data.data;
+        const dateUSFormt = moment(response.data.data.date_of_birth).format(
+          'DD-MMM-YYYY',
+        );
+        const tempObj = {...response.data.data, date_of_birth: dateUSFormt};
+        state.userProfile = {...tempObj};
       }
       state.isSuccess = true;
     });
@@ -73,8 +82,7 @@ const authSlice = createSlice({
     });
     builder.addCase(fetchScanerCustomerList.fulfilled, (state, action) => {
       const {response} = action.payload;
-      console.log('action.payload>>', response.message);
-
+      //console.log('action.payload>>', response.message);
       //console.log('response.data.data >>', response.data.data);
       if (response.status === 200) {
         state.loading = false;
@@ -83,8 +91,7 @@ const authSlice = createSlice({
       state.isSuccess = true;
     });
     builder.addCase(fetchScanerCustomerList.rejected, (state, action) => {
-      console.log('Rejected ::', state, action);
-
+      //console.log('Rejected ::', state, action);
       state.loading = false;
       state.isSuccess = false;
       state.errorMessage = action.payload;
@@ -144,19 +151,20 @@ const authSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(fetchScanerAllCustomerList.fulfilled, (state, action) => {
-      const {response} = action.payload;
-      console.log('action.payload>>', response.message);
-
-      //console.log('response.data.data >>', response.data.data);
+      const {response, query} = action.payload;
       if (response.status === 200) {
         state.loading = false;
-        state.allHistory = response.data.data;
+        state.historyObj.customer_data.push(
+          ...response.data.data.customer_data,
+        );
+        state.historyObj.totalPage = response.data.data.total_pages;
+        state.historyObj.page = parseInt(query) + 1;
+        state.historyObj.count = parseInt(response.data.data.total_records);
       }
       state.isSuccess = true;
     });
     builder.addCase(fetchScanerAllCustomerList.rejected, (state, action) => {
-      console.log('Rejected ::', state, action);
-
+      //console.log('Rejected ::', state, action);
       state.loading = false;
       state.isSuccess = false;
       state.errorMessage = action.payload;
@@ -166,7 +174,6 @@ const authSlice = createSlice({
 });
 
 export const {updateUserObj} = authSlice.actions;
-
 export const fetchCustomerList = createAsyncThunk(
   'auth/fetchCustomerList',
   async (header, {rejectWithValue}) => {
@@ -198,10 +205,13 @@ export const fetchScanerProfile = createAsyncThunk(
 export const fetchScanerCustomerList = createAsyncThunk(
   'auth/fetchScanerCustomerList',
   async (header, {rejectWithValue}) => {
-    console.log(' call api Headers For History>  ', header);
+    //console.log(' call api Headers For History>  ', header);
     try {
+      const page = 1;
       const response = await getApi(
-        ApiURL.getstaffdetailswithcustomerimages + '/?all_history=false',
+        ApiURL.getstaffdetailswithcustomerimages +
+          '/?all_history=false&page=' +
+          page,
         header,
       );
       //console.log('response Scanner Profile >>>', response);
@@ -214,15 +224,18 @@ export const fetchScanerCustomerList = createAsyncThunk(
 
 export const fetchScanerAllCustomerList = createAsyncThunk(
   'auth/fetchScanerAllCustomerList',
-  async (header, {rejectWithValue}) => {
-    console.log(' call api Headers For History>  ', header);
+  async (data, {rejectWithValue}) => {
+    //console.log(' call api Headers For History>  ', header);
     try {
+      const page = data.page;
       const response = await getApi(
-        ApiURL.getstaffdetailswithcustomerimages + '/?all_history=true',
-        header,
+        ApiURL.getstaffdetailswithcustomerimages +
+          '/?all_history=true&page=' +
+          page,
+        data.headers,
       );
       //console.log('response Scanner Profile >>>', response);
-      return {response};
+      return {response, query: data.page};
     } catch (err) {
       return rejectWithValue(err.message);
     }
@@ -255,7 +268,7 @@ export const fetchCustomerEmailThreadDetail = createAsyncThunk(
     //console.log(' call api Headers For History>  ', data, headers);
     try {
       const response = await postApi(ApiURL.emailthred, data, headers);
-      console.log('response Scanner Profile >>>', response);
+      //console.log('response Scanner Profile >>>', response);
       return {response};
     } catch (err) {
       return rejectWithValue(err.message);
@@ -263,6 +276,7 @@ export const fetchCustomerEmailThreadDetail = createAsyncThunk(
   },
 );
 
+export const historyObj = state => state.userAuthReducer.historyObj;
 export const selectUserLoginIn = state => state.userAuthReducer.isLoggedIn;
 export const selectLoading = state => state.userAuthReducer.loading;
 export const selectUserObject = state => state.userAuthReducer.userObj;

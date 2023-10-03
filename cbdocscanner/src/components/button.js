@@ -1,5 +1,11 @@
 import React from 'react';
-import {Pressable, Text, View, ActivityIndicator} from 'react-native';
+import {
+  Pressable,
+  Text,
+  View,
+  ActivityIndicator,
+  TouchableOpacity,
+} from 'react-native';
 import style from '../styles/globalStyle';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import colors from '../theme/colors';
@@ -22,7 +28,7 @@ const Button = props => {
     loading = false,
   } = props;
   return (
-    <Pressable
+    <TouchableOpacity
       style={{
         ...style.button,
         width: width,
@@ -61,7 +67,7 @@ const Button = props => {
           )}
         </>
       )}
-    </Pressable>
+    </TouchableOpacity>
   );
 };
 

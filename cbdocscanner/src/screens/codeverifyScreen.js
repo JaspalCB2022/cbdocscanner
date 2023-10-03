@@ -20,6 +20,7 @@ import {AlertMsgObj} from '../utils/helper';
 import {AlertTypes} from '../utils/constent';
 import {SplashLogoImage} from '../theme/Images';
 import metrics from '../theme/metrics';
+import ScrollViewWrapper from '../components/scrollView';
 
 const CodeVerficationScreen = props => {
   const {email} = props.route.params;
@@ -125,21 +126,21 @@ const CodeVerficationScreen = props => {
 
   return (
     <View style={style.conatiner}>
-      <View style={globalstyle.shadow}>
-        <View style={{textAlign: 'center', marginBottom: 50}}>
-          <SplashLogoImage
-            style={{width: metrics.width, height: 100}}
-            resizeMode={'contain'}
-          />
-        </View>
-        <View style={style.screenTitle}>
-          <Icon
-            name="lock-outline"
-            size={30}
-            color={colors.buttonBackgrounColor}
-          />
-        </View>
-        <View>
+      <ScrollViewWrapper>
+        <View style={globalstyle.shadow}>
+          <View style={{textAlign: 'center', marginBottom: 50, marginTop: 80}}>
+            <SplashLogoImage
+              style={{width: metrics.width, height: 150}}
+              resizeMode={'contain'}
+            />
+          </View>
+          <View style={style.screenTitle}>
+            <Icon
+              name="lock-outline"
+              size={30}
+              color={colors.buttonBackgrounColor}
+            />
+          </View>
           <View style={style.formView}>
             <View style={style.formRow}>
               <Label
@@ -194,7 +195,7 @@ const CodeVerficationScreen = props => {
             />
           </View>
         </View>
-      </View>
+      </ScrollViewWrapper>
     </View>
   );
 };

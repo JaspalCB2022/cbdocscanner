@@ -72,27 +72,13 @@ const HomeScreen = props => {
                   data={customerHistory.customer_data}
                   navigation={navigation}
                 />
-                <View style={{paddingHorizontal: 10, marginTop: 20}}>
-                  <Button
-                    onPress={naviateToAllHistoryHandler}
-                    title={'View All History'}
-                    iconname={'history'}
-                    iconcolor={colors.primary}
-                    iconsize={16}
-                    bgColor={'transparent'}
-                    textColor={colors.primary}
-                    textSize={size.font14}
-                    customStyle={true}
-                    customButtonStyle={{paddingVertical: 10}}
-                  />
-                </View>
               </>
             ) : (
               <View
                 style={{
                   flexDirection: 'column',
                   alignItems: 'center',
-                  marginTop: 40,
+                  marginVertical: 40,
                 }}>
                 <Label
                   title={'No History Found.'}
@@ -101,6 +87,20 @@ const HomeScreen = props => {
                 />
               </View>
             )}
+            <View style={{paddingHorizontal: 10, marginTop: 20}}>
+              <Button
+                onPress={naviateToAllHistoryHandler}
+                title={'View All History'}
+                iconname={'history'}
+                iconcolor={colors.primary}
+                iconsize={16}
+                bgColor={'transparent'}
+                textColor={colors.primary}
+                textSize={size.font14}
+                customStyle={true}
+                customButtonStyle={{paddingVertical: 10}}
+              />
+            </View>
           </>
         )}
       </ScrollViewWrapper>

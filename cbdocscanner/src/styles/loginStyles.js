@@ -6,6 +6,7 @@ import {size, weight} from '../theme/fonts';
 const style = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column',
     justifyContent: 'center',
     alignContent: 'center',
     alignItems: 'center',

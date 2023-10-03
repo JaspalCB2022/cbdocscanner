@@ -1,8 +1,6 @@
 import axios from 'axios';
 
 export const getApi = (url, headers = null) => {
-  //console.log('headers >>>', headers);
-  //console.log('url >>', url);
   const tempheader = headers ? {headers: headers} : null;
   return tempheader
     ? axios
@@ -15,13 +13,7 @@ export const getApi = (url, headers = null) => {
         .catch(err => err);
 };
 export const postApi = (url, data, headers = null) => {
-  console.log('headers jhjh >>>', headers);
-  console.log('data >>', data);
-  console.log('url >>', url);
   const tempheader = headers ? {headers: headers} : null;
-
-  console.log('tempheader >>', tempheader);
-
   return tempheader
     ? axios
         .post(url, data, tempheader)
