@@ -18,9 +18,9 @@ import {compressImage} from '../utils/helper';
 const ScannedDocumentScreen = props => {
   const {navigation, route} = props;
   const userObj = useSelector(selectUserObject);
-  console.log('route >>', route);
+  //console.log('route >>', route);
   const document_id = route?.params?.document_id ? route.params.document_id : 0;
-  console.log('document_id >>', document_id);
+  //console.log('document_id >>', document_id);
   const [loading, setLoading] = React.useState(false);
   const [scannedImage, setScannedImage] = React.useState(null);
 
@@ -57,7 +57,7 @@ const ScannedDocumentScreen = props => {
         maxNumDocuments: 1,
         croppedImageQuality: 100,
       });
-      console.log('scannedImages >>', scannedImages);
+      //console.log('scannedImages >>', scannedImages);
       if (scannedImages) {
         setLoading(true);
         const filepath =
@@ -85,7 +85,7 @@ const ScannedDocumentScreen = props => {
         );
         // console.log('tempRes >>', tempRes);
         // const restempQAImage = await improveQuailtyHandler(scannedImages[0]);
-        console.log('restempQAImage >>', restempQAImage);
+        //console.log('restempQAImage >>', restempQAImage);
         if (restempQAImage?.status === 200) {
           setLoading(false);
           const tempIMPImage = [restempQAImage.data.data.thresholded_image_url];
@@ -97,14 +97,14 @@ const ScannedDocumentScreen = props => {
             tempIMPImage: tempIMPImage,
           });
         } else {
-          console.log('some Error.');
+          //console.log('some Error.');
           setLoading(false);
         }
       } else {
         handleNavigateBackToHome();
       }
     } catch (err) {
-      console.log(err);
+      //console.log(err);
       handleNavigateBackToHome();
     }
   };

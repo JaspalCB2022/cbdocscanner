@@ -89,7 +89,7 @@ function MyBottomNavigatior() {
           ),
           tabBarStyle: (route => {
             const routeName = getFocusedRouteNameFromRoute(route) ?? '';
-            console.log(routeName);
+            //console.log(routeName);
             if (routeName === 'viewdoc' || routeName === 'sendtocustomer') {
               return {display: 'none'};
             }
@@ -109,7 +109,7 @@ function MyBottomNavigatior() {
           ),
           tabBarStyle: (route => {
             const routeName = getFocusedRouteNameFromRoute(route) ?? '';
-            console.log(routeName);
+            //console.log(routeName);
             if (
               routeName === 'customerdetail' ||
               routeName === 'fileview' ||

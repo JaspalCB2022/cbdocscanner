@@ -14,7 +14,7 @@ const OpenFileViewer = props => {
   const {route} = props;
   const {fileurl, filetype} = route.params;
 
-  console.log('fileurl >>', fileurl, filetype);
+  //console.log('fileurl >>', fileurl, filetype);
 
   return (
     <View style={styles.container}>

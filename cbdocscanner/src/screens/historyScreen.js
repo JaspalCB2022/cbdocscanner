@@ -24,6 +24,7 @@ import Button from '../components/button';
 import {getApi} from '../services/api';
 import ApiURL from '../services/apiURL';
 import colors from '../theme/colors';
+import Label from '../components/label';
 
 const HistoryScreen = props => {
   const dispatch = useDispatch();
@@ -100,7 +101,7 @@ const HistoryScreen = props => {
       //   }
       // }
     } catch (err) {
-      console.log('err>', err);
+      //console.log('err>', err);
       //setHistory({customer_data: []});
       setLoading(false);
     } finally {
@@ -110,9 +111,6 @@ const HistoryScreen = props => {
   };
 
   const loadMore = () => {
-    // if (history.count > history.customer_data.length) {
-    //   setPage(page + 1);
-    // }
     if (page < history.totalPage) {
       setPage(page + 1);
     }
@@ -135,17 +133,39 @@ const HistoryScreen = props => {
                 onRefresh={getCustomerHistoryHandler}
               />
             }>
-            <History data={history?.customer_data} {...props} />
-            {history.count > history.customer_data.length && (
-              <View style={{justifyContent: 'center', marginHorizontal: 10}}>
-                <Button
-                  //iconname={'arrow-right'}
-                  title={loading ? 'Loading...' : 'Load More'}
-                  onPress={loadMore}
-                  loading={loading}
-                />
-              </View>
-            )}
+            <>
+              {history?.customer_data.length == 0 ? (
+                <View
+                  style={{
+                    //flex: 1,
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginVertical: 40,
+                  }}>
+                  <Label
+                    title={'No History Found.'}
+                    color={'#F35B5B'}
+                    enablecapitalize={false}
+                  />
+                </View>
+              ) : (
+                <>
+                  <History data={history?.customer_data} {...props} />
+                  {history.count > history.customer_data.length && (
+                    <View
+                      style={{justifyContent: 'center', marginHorizontal: 10}}>
+                      <Button
+                        //iconname={'arrow-right'}
+                        title={loading ? 'Loading...' : 'Load More'}
+                        onPress={loadMore}
+                        loading={loading}
+                      />
+                    </View>
+                  )}
+                </>
+              )}
+            </>
           </ScrollViewWrapper>
         </View>
       )}

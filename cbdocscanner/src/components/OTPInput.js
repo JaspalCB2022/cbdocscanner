@@ -7,7 +7,7 @@ const OTPInput = props => {
   const {code, setCode, maximumLength, setIsPinReady} = props;
   const inputRef = React.useRef(null);
   const boxArray = new Array(maximumLength).fill(0);
-  console.log('boxArray >>', boxArray);
+  //console.log('boxArray >>', boxArray);
 
   const handleOnBlur = () => {};
 

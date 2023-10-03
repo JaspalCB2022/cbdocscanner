@@ -1,5 +1,5 @@
-import React from 'react';
-import {View, Text} from 'react-native';
+import React, {useEffect} from 'react';
+import {View, Text, LogBox} from 'react-native';
 import style from '../styles/addCustomerStyle';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
@@ -88,7 +88,7 @@ const AddCustomer = props => {
         const tempObj = AlertMsgObj(AlertTypes.success);
         toast.show(tempRes.data.message, tempObj);
         navigation.navigate('customers');
-        route.params.getCustomersListHandler();
+        route.params.getCustomers();
       } else {
         setLoading(false);
         const tempObj = AlertMsgObj(AlertTypes.danger);
@@ -101,6 +101,11 @@ const AddCustomer = props => {
       toast.show(err.message, tempObj);
     }
   };
+  useEffect(() => {
+    LogBox.ignoreLogs([
+      'Non-serializable values were found in the navigation state',
+    ]);
+  }, []);
 
   return (
     <View style={style.container}>

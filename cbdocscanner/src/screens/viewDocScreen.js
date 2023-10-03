@@ -42,7 +42,7 @@ const ViewDocumentScreen = props => {
 
   const userObj = useSelector(selectUserObject);
   //console.log('user Object >>', userObj);
-  console.log('router >>', route.params.tempIMPImage);
+  //console.log('router >>', route.params.tempIMPImage);
 
   const [improvedImages, setImprovedImages] = React.useState([
     ...(route?.params?.tempIMPImage?.length > 0
@@ -182,7 +182,7 @@ const ViewDocumentScreen = props => {
           //setLoading(false);
         }
       } catch (err) {
-        console.log('err >>', err);
+        //console.log('err >>', err);
         const tempObj = AlertMsgObj(AlertTypes.danger);
         toast.show(err.message, tempObj);
         setLoading(false);

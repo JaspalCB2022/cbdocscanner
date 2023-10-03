@@ -31,7 +31,7 @@ export const PostApiWithFileProgress = (
   headers = null,
   onUploadProgress,
 ) => {
-  console.log('with header Post api >>>', headers);
+  //console.log('with header Post api >>>', headers);
   return axios
     .post(url, data, headers, onUploadProgress)
     .then(res => res)

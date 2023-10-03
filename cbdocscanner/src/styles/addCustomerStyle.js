@@ -28,6 +28,11 @@ const style = StyleSheet.create({
   viewSpace: {
     marginBottom: 5,
   },
+  addButton: {
+    position: 'absolute',
+    bottom: 0,
+    top: 0,
+  },
 });
 
 export default style;

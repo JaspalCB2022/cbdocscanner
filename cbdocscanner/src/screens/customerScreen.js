@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -9,6 +9,7 @@ import {
   Appearance,
   RefreshControl,
   TouchableOpacity,
+  LogBox,
 } from 'react-native';
 import colors from '../theme/colors';
 import Label from '../components/label';
@@ -22,47 +23,53 @@ import {
 } from '../stores/reducers/auth';
 import styles from '../styles/customerStyle';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {postApi} from '../services/api';
+import ApiURL from '../services/apiURL';
 
 const CustomersScreen = props => {
   const {navigation} = props;
   const dispatch = useDispatch();
   const userObj = useSelector(selectUserObject);
-  const customers = useSelector(selectCustomerLists);
-  const [search, setSearch] = React.useState('');
-  const [filteredList, setFilteredList] = React.useState([]);
-  const isLoading = useSelector(selectLoading);
-  const [refreshing, setRefreshing] = React.useState(false);
+  //const customers = useSelector(selectCustomerLists);
+  //const isLoading = useSelector(selectLoading);
+
+  const [search, setSearch] = useState('');
+  const [customers, setCustomers] = useState([]);
+  const [filteredList, setFilteredList] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const [reloadComp, setReloadComp] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const searchFilterFunction = text => {
-    // Check if searched text is not blank
-    if (text) {
-      // Inserted text is not blank
-      // Filter the masterDataSource and update FilteredDataSource
-      const newData = customers.filter(function (item) {
-        // Applying filter for the inserted text in search bar
-        const name = `${item.first_name} ${item.last_name}`;
-
-        const itemData = name.toUpperCase() + item.mailbox_no.toString();
-        const textData = text.toUpperCase();
-        return itemData.indexOf(textData) > -1;
-      });
-      setFilteredList(newData);
-      setSearch(text);
-    } else {
-      setFilteredList(customers);
-      setSearch(text);
-    }
+    const newData = customers.filter(item => {
+      const name = `${item.first_name} ${item.last_name}`;
+      const itemData = `${name.toUpperCase()}${item.mailbox_no.toString()}`;
+      const textData = text.toUpperCase();
+      return itemData.includes(textData);
+    });
+    setFilteredList(text ? newData : customers);
+    setSearch(text);
   };
 
-  const getCustomersListHandler = () => {
-    setRefreshing(true);
-    //console.log('function Call start');
-    const headers = {
-      Authorization: 'Bearer ' + userObj.token,
-    };
-    dispatch(fetchCustomerList(headers));
-    setFilteredList(customers);
-    setRefreshing(false);
+  const getCustomersListHandler = async () => {
+    try {
+      setRefreshing(true);
+      setIsLoading(true);
+      const headers = {
+        Authorization: `Bearer ${userObj.token}`,
+      };
+      const response = await postApi(ApiURL.GetCustomerList, {}, headers);
+      //console.log('response get >>>', response);
+      if (response.status === 200) {
+        setCustomers(response.data.data);
+        setFilteredList(response.data.data);
+      }
+      setIsLoading(false);
+      setRefreshing(false);
+    } catch (err) {
+      setIsLoading(false);
+      setRefreshing(false);
+    }
   };
 
   const detailNavigationHandler = item => {
@@ -73,23 +80,17 @@ const CustomersScreen = props => {
 
   const addCustomerNavigation = () => {
     navigation.navigate('addcustomer', {
-      getCustomersListHandler: getCustomersListHandler,
+      getCustomers: getCustomersListHandler,
     });
   };
 
   useEffect(() => {
-    const getCustomersListHandler = () => {
-      setRefreshing(true);
-      //console.log('function Call start');
-      const headers = {
-        Authorization: 'Bearer ' + userObj.token,
-      };
-      dispatch(fetchCustomerList(headers));
-      setFilteredList(customers);
-      setRefreshing(false);
-    };
     getCustomersListHandler();
   }, []);
+
+  // useEffect(() => {
+  //   LogBox.ignoreLogs(['Ignoring non-serializable logs']);
+  // }, []);
 
   const ItemView = ({item}) => {
     return (
@@ -137,7 +138,6 @@ const CustomersScreen = props => {
       />
     );
   };
-
   return (
     <View
       style={{
@@ -167,7 +167,6 @@ const CustomersScreen = props => {
             </View>
             <FlatList
               data={filteredList}
-              extraData={customers}
               keyExtractor={(item, index) => index.toString()}
               ItemSeparatorComponent={ItemSeparatorView}
               renderItem={ItemView}

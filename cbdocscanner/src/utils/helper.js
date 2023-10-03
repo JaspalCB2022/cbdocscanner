@@ -69,7 +69,7 @@ const downloadImages = async imageUrls => {
 
       const response = await RNFS.downloadFile(options).promise.then(
         response => {
-          console.log('File downloaded!', response);
+          //console.log('File downloaded!', response);
           if (response.statusCode === 200) {
             downloadedPaths.push(downloadDest);
           } else {
@@ -183,8 +183,7 @@ const generatePDFFromImprovedImages = async imagePaths => {
       }
 
       try {
-        console.log('filePath>>', filePath);
-
+        //console.log('filePath>>', filePath);
         const uri = await createPdf({
           outputPath: `file://${filePath}`,
           pages,
